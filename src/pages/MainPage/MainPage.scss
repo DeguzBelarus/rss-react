@@ -3,5 +3,8 @@
 .main-page-wrapper {
   width: 100%;
   height: calc(100vh - #{($header-height + px)});
-  @include flex-all-center;
+  @include flex-line-start-vertical-top;
+  flex-wrap: wrap;
+  gap:  5px;
+  padding: 20px;
 }

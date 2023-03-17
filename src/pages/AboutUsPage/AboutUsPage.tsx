@@ -7,7 +7,7 @@ export class AboutUsPage extends Component {
   render() {
     return (
       <>
-        <Header />
+        <Header origin="about-page" />
         <div className="about-us-page-wrapper">AboutUsPage works!</div>
       </>
     );
