@@ -1,2 +1,2 @@
-# rss-react
-rs school react cource repo
+# repository description
+the rs school react course repo
