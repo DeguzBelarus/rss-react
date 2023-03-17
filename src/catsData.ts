@@ -6,8 +6,7 @@ export const catsData: Array<ICatObject> = [
     breed: 'maine-coon',
     homeCity: 'Minsk',
     name: 'Felix',
-    imageSrc:
-      'https://chudo-prirody.com/uploads/posts/2021-08/1628723302_35-p-foto-mein-kunov-kotov-bolshikh-razmerov-46.jpg',
+    imageSrc: 'https://klike.net/uploads/posts/2023-01/1674113220_3-76.jpg',
   },
   {
     id: 2,
@@ -23,7 +22,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Gomel',
     name: 'Tutsi',
     imageSrc:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Gustav_chocolate.jpg/800px-Gustav_chocolate.jpg',
+      'https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-1.jpg',
   },
   {
     id: 4,
@@ -38,7 +37,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Grodno',
     name: 'Liza',
     imageSrc:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/American_bobtail_2.jpg/800px-American_bobtail_2.jpg',
+      'https://chudo-prirody.com/uploads/posts/2021-08/1628244303_29-p-amerikanskii-bobteil-koshka-foto-29.jpg',
   },
   {
     id: 6,
@@ -96,8 +95,7 @@ export const catsData: Array<ICatObject> = [
     breed: 'cornish rex',
     homeCity: 'New York',
     name: 'Star',
-    imageSrc:
-      'https://kartinkin.net/pics/uploads/posts/2022-09/thumbs/1662518670_15-kartinkin-net-p-poroda-koshek-kornish-reks-krasivo-15.jpg',
+    imageSrc: 'https://house-animals.ru/sites/default/files/media/user-1/cornish-rex-cat.jpg',
   },
   {
     id: 14,
@@ -118,7 +116,6 @@ export const catsData: Array<ICatObject> = [
     breed: 'persian',
     homeCity: 'Istanbul',
     name: 'CookieCat',
-    imageSrc:
-      'https://kartinkin.net/uploads/posts/2022-12/1670021350_kartinkin-net-p-pers-poroda-koshek-krasivo-48.jpg',
+    imageSrc: 'https://kot-pes.com/wp-content/uploads/2019/02/post_5c48b6275c49e.jpg',
   },
 ];

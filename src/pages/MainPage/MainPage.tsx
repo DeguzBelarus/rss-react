@@ -4,6 +4,7 @@ import { Header } from 'components/Header/Header';
 import { ICatObject } from 'types/types';
 import { catsData } from 'catsData';
 import './MainPage.scss';
+import { CatItem } from './components/CatItem/CatItem';
 
 interface State {
   filterKey: string;
@@ -36,7 +37,11 @@ export class MainPage extends Component<object, State> {
   componentDidUpdate(prevProps: object, prevState: Readonly<State>): void {
     if (prevState.filterKey !== this.state.filterKey) {
       this.setState({
-        filteredCatsData: catsData.filter((catObject) => catObject.name === this.state.filterKey),
+        filteredCatsData: this.state.filterKey
+          ? catsData.filter((catData) =>
+              catData.name.toUpperCase().startsWith(this.state.filterKey.toUpperCase())
+            )
+          : catsData,
       });
     }
   }
@@ -49,7 +54,24 @@ export class MainPage extends Component<object, State> {
           filterKeyUpdateData={this.filterKeyUpdateData}
           filterKey={this.state.filterKey}
         />
-        <div className="main-page-wrapper">MainPage works!</div>
+        <div className="main-page-wrapper">
+          {this.state.filteredCatsData.length ? (
+            this.state.filteredCatsData.map((catData) => {
+              return (
+                <CatItem
+                  breed={catData.breed}
+                  homeCity={catData.homeCity}
+                  id={catData.id}
+                  imageSrc={catData.imageSrc}
+                  name={catData.name}
+                  key={catData.id}
+                />
+              );
+            })
+          ) : (
+            <span>{'There are no cats here ;('}</span>
+          )}
+        </div>
       </>
     );
   }
