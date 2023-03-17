@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { AppRouter } from 'AppRouter/AppRouter';
 import { Header } from './Header/Header';
 
 class App extends Component {
@@ -7,6 +8,7 @@ class App extends Component {
     return (
       <>
         <Header />
+        <AppRouter />
       </>
     );
   }
