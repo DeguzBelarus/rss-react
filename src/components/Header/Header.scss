@@ -1,0 +1,9 @@
+@import '../../variables';
+
+header {
+  width: 100%;
+  height: $header-height + px;
+  @include flex-all-center;
+  border: 1px solid #000;
+  background-color: green;
+}

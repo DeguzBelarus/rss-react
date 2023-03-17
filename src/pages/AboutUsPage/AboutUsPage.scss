@@ -1,0 +1,7 @@
+@import '../../variables';
+
+.about-us-page-wrapper {
+  width: 100%;
+  height: calc(100vh - #{($header-height + px)});
+  @include flex-all-center;
+}
