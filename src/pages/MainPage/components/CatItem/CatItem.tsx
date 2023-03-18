@@ -7,9 +7,13 @@ export class CatItem extends Component<ICatObject> {
   render() {
     return (
       <div className="cat-item-wrapper">
-        <span>{this.props.name}</span>
+        <p className="cat-name-paragraph">{this.props.name}</p>
         <div className="cat-image-container">
           <img src={this.props.imageSrc} alt="a cat" />
+        </div>
+        <div className="cat-info-container">
+          <span>{this.props.breed}</span>
+          <span>&#8962;{` ${this.props.homeCity}`}</span>
         </div>
       </div>
     );
