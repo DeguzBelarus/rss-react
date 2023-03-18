@@ -8,7 +8,14 @@ export class AboutUsPage extends Component {
     return (
       <>
         <Header origin="about-page" />
-        <div className="about-us-page-wrapper">AboutUsPage works!</div>
+        <div className="about-us-page-wrapper" data-testid="app-about-us-page">
+          <h1>About Us</h1>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio error cumque corrupti
+            alias aliquam impedit, veritatis accusamus sequi. Itaque, dolorum quis vel labore
+            deserunt nemo ad ducimus sunt saepe maiores!
+          </p>
+        </div>
       </>
     );
   }

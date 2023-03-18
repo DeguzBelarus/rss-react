@@ -21,8 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:coverage": "yarn test --coverage --watchAll",
+    "test": "react-scripts test --coverage --watchAll",
     "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "eject": "react-scripts eject"
   },

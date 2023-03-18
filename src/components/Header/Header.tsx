@@ -14,7 +14,7 @@ interface Props {
 export class Header extends Component<Props> {
   render() {
     return (
-      <header>
+      <header data-testid="app-header">
         {this.props.origin === 'main-page' &&
         this.props.filterKeyUpdateData !== undefined &&
         this.props.filterKey !== undefined ? (
@@ -27,6 +27,7 @@ export class Header extends Component<Props> {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 this.props.filterKeyUpdateData?.(event.target.value || '')
               }
+              data-testid="app-filter-input"
             />
           </div>
         ) : null}
@@ -34,7 +35,9 @@ export class Header extends Component<Props> {
           {this.props.origin === 'main-page' ? (
             <>
               <span className="current-page-span">Main</span>
-              <Link to={'/about'}>About Us</Link>
+              <Link to={'/about'} data-testid="app-about-us-link">
+                About Us
+              </Link>
             </>
           ) : (
             <>

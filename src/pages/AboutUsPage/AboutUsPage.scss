@@ -3,5 +3,14 @@
 .about-us-page-wrapper {
   width: 100%;
   height: calc(100vh - #{($header-height + px)});
-  @include flex-all-center;
+  @include flex-column-line-start-vertical-top;
+  padding: 20px;
+
+  h1 {
+    color: #555;
+  }
+
+  p {
+    color: #222;
+  }
 }

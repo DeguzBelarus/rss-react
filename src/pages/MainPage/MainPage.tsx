@@ -54,7 +54,7 @@ export class MainPage extends Component<object, State> {
           filterKeyUpdateData={this.filterKeyUpdateData}
           filterKey={this.state.filterKey}
         />
-        <div className="main-page-wrapper">
+        <div className="main-page-wrapper" data-testid="app-main-page">
           {this.state.filteredCatsData.length ? (
             this.state.filteredCatsData.map((catData) => {
               return (
