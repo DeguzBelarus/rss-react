@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { HeaderOriginType } from 'types/types';
 import './Header.scss';
-
-type HeaderOriginType = 'main-page' | 'about-page';
 
 interface Props {
   origin: HeaderOriginType;
@@ -34,16 +33,32 @@ export class Header extends Component<Props> {
           {origin === 'main-page' ? (
             <>
               <span className="current-page-span">Main</span>
+              <Link to={'/purchases'} data-testid="purchases-link">
+                Purchases
+              </Link>
               <Link to={'/about'} data-testid="app-about-us-link">
                 About Us
               </Link>
             </>
-          ) : (
+          ) : null}
+          {origin === 'about-page' ? (
             <>
               <Link to={'/'}>Main</Link>
+              <Link to={'/purchases'} data-testid="purchases-link">
+                Purchases
+              </Link>
               <span className="current-page-span">About Us</span>
             </>
-          )}
+          ) : null}
+          {origin === 'purchases-page' ? (
+            <>
+              <Link to={'/'}>Main</Link>
+              <span className="current-page-span">Purchases</span>
+              <Link to={'/about'} data-testid="app-about-us-link">
+                About Us
+              </Link>
+            </>
+          ) : null}
         </div>
       </header>
     );
