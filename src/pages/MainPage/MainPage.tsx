@@ -62,7 +62,7 @@ export class MainPage extends Component<object, State> {
               return (
                 <CatItem
                   breed={catData.breed}
-                  homeCity={catData.homeCity}
+                  city={catData.city}
                   id={catData.id}
                   imageSrc={catData.imageSrc}
                   name={catData.name}

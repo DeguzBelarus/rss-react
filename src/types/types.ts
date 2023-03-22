@@ -9,6 +9,6 @@ export interface ICatObject {
   name: string;
   breed: string;
   imageSrc: string;
-  homeCity: string;
+  city: string;
   price: number;
 }

@@ -4,7 +4,8 @@
   width: 22vw;
   height: auto;
   @include flex-column-line-center-vertical-top;
-  border: 3px solid #777;
+  border: 3px solid #555;
+  background-color: #ddd;
   border-radius: 5px;
 
   .cat-name-paragraph {

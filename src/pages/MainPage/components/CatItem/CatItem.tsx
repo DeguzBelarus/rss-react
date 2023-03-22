@@ -5,7 +5,7 @@ import './CatItem.scss';
 
 export class CatItem extends Component<ICatObject> {
   render() {
-    const { breed, name, imageSrc, homeCity, price } = this.props;
+    const { breed, name, imageSrc, city, price } = this.props;
     return (
       <div className="cat-item-wrapper" data-testid="app-cat-item">
         <p className="cat-name-paragraph">{name}</p>
@@ -15,7 +15,7 @@ export class CatItem extends Component<ICatObject> {
         <div className="cat-info-container">
           <span>{breed}</span>
           <span className="price-span">{`${price}$`}</span>
-          <span>&#8962;{` ${homeCity}`}</span>
+          <span>&#8962;{` ${city}`}</span>
         </div>
       </div>
     );

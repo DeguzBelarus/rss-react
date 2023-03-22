@@ -4,7 +4,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 1,
     breed: 'Maine-coon',
-    homeCity: 'Minsk',
+    city: 'Minsk',
     name: 'Felix',
     imageSrc: 'https://klike.net/uploads/posts/2023-01/1674113220_3-76.jpg',
     price: 600,
@@ -12,7 +12,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 2,
     breed: 'Maine-coon',
-    homeCity: 'Vitebsk',
+    city: 'Vitebsk',
     name: 'Monya',
     imageSrc:
       'https://prohvost.club/wp-content/uploads/2018/03/mramornyy-meyn-kun-s-ugryumym-vzglyadom-na-chernom-fone.jpg',
@@ -21,7 +21,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 3,
     breed: 'Abyssinian',
-    homeCity: 'Gomel',
+    city: 'Gomel',
     name: 'Tutsi',
     imageSrc:
       'https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-1.jpg',
@@ -30,7 +30,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 4,
     breed: 'Abyssinian',
-    homeCity: 'Grodno',
+    city: 'Grodno',
     name: 'Markiz',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Valentino.jpg',
     price: 500,
@@ -38,7 +38,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 5,
     breed: 'American bobtail',
-    homeCity: 'Grodno',
+    city: 'Grodno',
     name: 'Liza',
     imageSrc:
       'https://chudo-prirody.com/uploads/posts/2021-08/1628244303_29-p-amerikanskii-bobteil-koshka-foto-29.jpg',
@@ -47,7 +47,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 6,
     breed: 'American bobtail',
-    homeCity: 'Brest',
+    city: 'Brest',
     name: 'Murzik',
     imageSrc: 'https://i.pinimg.com/originals/b8/81/34/b881345b242f370c103f9eeb2dd97554.jpg',
     price: 680,
@@ -55,7 +55,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 7,
     breed: 'Balinese',
-    homeCity: 'Vilnius',
+    city: 'Vilnius',
     name: 'Nona',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Old-Style_Balinese_Cat.png',
     price: 400,
@@ -63,7 +63,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 8,
     breed: 'Balinese',
-    homeCity: 'Tokio',
+    city: 'Tokio',
     name: 'Minamoto',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Ghislaine_6028.jpg',
     price: 410,
@@ -71,7 +71,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 9,
     breed: 'Birman',
-    homeCity: 'Tokio',
+    city: 'Tokio',
     name: 'Hasimoto',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Birman2.jpg',
     price: 420,
@@ -79,7 +79,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 10,
     breed: 'Birman',
-    homeCity: 'Beijing',
+    city: 'Beijing',
     name: 'Luiza',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/06/Birmanstrofe.jpg',
     price: 480,
@@ -87,7 +87,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 11,
     breed: 'Bengal',
-    homeCity: 'Prague',
+    city: 'Prague',
     name: 'Lola',
     imageSrc:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Best_Stalk.jpg/1280px-Best_Stalk.jpg',
@@ -96,7 +96,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 12,
     breed: 'Bengal',
-    homeCity: 'Milan',
+    city: 'Milan',
     name: 'Zephyr',
     imageSrc:
       'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Catbengalinbedresting.jpg/1024px-Catbengalinbedresting.jpg',
@@ -105,7 +105,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 13,
     breed: 'Cornish rex',
-    homeCity: 'New York',
+    city: 'New York',
     name: 'Star',
     imageSrc: 'https://house-animals.ru/sites/default/files/media/user-1/cornish-rex-cat.jpg',
     price: 700,
@@ -113,7 +113,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 14,
     breed: 'Cornish rex',
-    homeCity: 'Los Angeles',
+    city: 'Los Angeles',
     name: 'Moona',
     imageSrc: 'https://i.pinimg.com/originals/90/8d/12/908d123c4a38f8e8bad5eece1968654a.jpg',
     price: 750,
@@ -121,7 +121,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 15,
     breed: 'Persian',
-    homeCity: 'Chicago',
+    city: 'Chicago',
     name: 'Lollipop',
     imageSrc: 'https://kot-pes.com/wp-content/uploads/2019/01/post_5c47684e9a452.jpg',
     price: 400,
@@ -129,7 +129,7 @@ export const catsData: Array<ICatObject> = [
   {
     id: 16,
     breed: 'Persian',
-    homeCity: 'Istanbul',
+    city: 'Istanbul',
     name: 'CookieCat',
     imageSrc: 'https://kot-pes.com/wp-content/uploads/2019/02/post_5c48b6275c49e.jpg',
     price: 500,
