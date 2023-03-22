@@ -35,11 +35,12 @@ export class MainPage extends Component<object, State> {
   }
 
   componentDidUpdate(prevProps: object, prevState: Readonly<State>): void {
-    if (prevState.filterKey !== this.state.filterKey) {
+    const { filterKey } = this.state;
+    if (prevState.filterKey !== filterKey) {
       this.setState({
-        filteredCatsData: this.state.filterKey
+        filteredCatsData: filterKey
           ? catsData.filter((catData) =>
-              catData.name.toUpperCase().startsWith(this.state.filterKey.toUpperCase())
+              catData.name.toUpperCase().startsWith(filterKey.toUpperCase())
             )
           : catsData,
       });
@@ -47,16 +48,17 @@ export class MainPage extends Component<object, State> {
   }
 
   render() {
+    const { filterKey, filteredCatsData } = this.state;
     return (
       <>
         <Header
           origin="main-page"
           filterKeyUpdateData={this.filterKeyUpdateData}
-          filterKey={this.state.filterKey}
+          filterKey={filterKey}
         />
         <div className="main-page-wrapper" data-testid="app-main-page">
-          {this.state.filteredCatsData.length ? (
-            this.state.filteredCatsData.map((catData) => {
+          {filteredCatsData.length ? (
+            filteredCatsData.map((catData) => {
               return (
                 <CatItem
                   breed={catData.breed}

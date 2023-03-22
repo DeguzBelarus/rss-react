@@ -13,26 +13,25 @@ interface Props {
 
 export class Header extends Component<Props> {
   render() {
+    const { origin, filterKey, filterKeyUpdateData } = this.props;
     return (
       <header data-testid="app-header">
-        {this.props.origin === 'main-page' &&
-        this.props.filterKeyUpdateData !== undefined &&
-        this.props.filterKey !== undefined ? (
+        {origin === 'main-page' && filterKeyUpdateData !== undefined && filterKey !== undefined ? (
           <div className="filter-input-container">
             <input
               type="text"
               className="filter-input"
               placeholder="Enter a cat name..."
-              value={this.props.filterKey}
+              value={filterKey}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                this.props.filterKeyUpdateData?.(event.target.value || '')
+                filterKeyUpdateData?.(event.target.value || '')
               }
               data-testid="app-filter-input"
             />
           </div>
         ) : null}
         <div className="pages-links-container">
-          {this.props.origin === 'main-page' ? (
+          {origin === 'main-page' ? (
             <>
               <span className="current-page-span">Main</span>
               <Link to={'/about'} data-testid="app-about-us-link">
