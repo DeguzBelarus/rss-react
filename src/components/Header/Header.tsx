@@ -10,11 +10,32 @@ interface Props {
   filterKey?: string;
 }
 
-export class Header extends Component<Props> {
+interface State {
+  isSearchMode: boolean;
+}
+
+export class Header extends Component<Props, State> {
+  state: State = {
+    isSearchMode: false,
+  };
+
+  searchModeActivator = () => {
+    this.setState({
+      isSearchMode: true,
+    });
+  };
+
+  searchModeDeactivator = () => {
+    this.setState({
+      isSearchMode: false,
+    });
+  };
+
   render() {
     const { origin, filterKey, filterKeyUpdateData } = this.props;
+    const { isSearchMode } = this.state;
     return (
-      <header data-testid="app-header">
+      <header className={isSearchMode ? 'search-mode-header' : 'header'} data-testid="app-header">
         {origin === 'main-page' && filterKeyUpdateData !== undefined && filterKey !== undefined ? (
           <div className="filter-input-container">
             <input
@@ -25,6 +46,8 @@ export class Header extends Component<Props> {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 filterKeyUpdateData?.(event.target.value || '')
               }
+              onFocus={this.searchModeActivator}
+              onBlur={this.searchModeDeactivator}
               data-testid="app-filter-input"
             />
           </div>
