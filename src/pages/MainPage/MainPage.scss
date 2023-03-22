@@ -3,9 +3,9 @@
 .main-page-wrapper {
   width: 100%;
   height: calc(100vh - #{($header-height + px)});
-  @include flex-line-start-vertical-top;
+  @include flex-line-center-vertical-top;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   padding: 20px;
   overflow-y: scroll;
 
