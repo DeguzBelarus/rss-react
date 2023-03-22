@@ -10,4 +10,5 @@ export interface ICatObject {
   breed: string;
   imageSrc: string;
   homeCity: string;
+  price: number;
 }

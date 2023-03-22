@@ -7,6 +7,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Minsk',
     name: 'Felix',
     imageSrc: 'https://klike.net/uploads/posts/2023-01/1674113220_3-76.jpg',
+    price: 600,
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ export const catsData: Array<ICatObject> = [
     name: 'Monya',
     imageSrc:
       'https://prohvost.club/wp-content/uploads/2018/03/mramornyy-meyn-kun-s-ugryumym-vzglyadom-na-chernom-fone.jpg',
+    price: 700,
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ export const catsData: Array<ICatObject> = [
     name: 'Tutsi',
     imageSrc:
       'https://skstoit.ru/wp-content/uploads/2022/01/skolko-stoit-abissinskaya-koshka-1.jpg',
+    price: 400,
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Grodno',
     name: 'Markiz',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Valentino.jpg',
+    price: 500,
   },
   {
     id: 5,
@@ -38,6 +42,7 @@ export const catsData: Array<ICatObject> = [
     name: 'Liza',
     imageSrc:
       'https://chudo-prirody.com/uploads/posts/2021-08/1628244303_29-p-amerikanskii-bobteil-koshka-foto-29.jpg',
+    price: 640,
   },
   {
     id: 6,
@@ -45,6 +50,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Brest',
     name: 'Murzik',
     imageSrc: 'https://i.pinimg.com/originals/b8/81/34/b881345b242f370c103f9eeb2dd97554.jpg',
+    price: 680,
   },
   {
     id: 7,
@@ -52,6 +58,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Vilnius',
     name: 'Nona',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Old-Style_Balinese_Cat.png',
+    price: 400,
   },
   {
     id: 8,
@@ -59,6 +66,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Tokio',
     name: 'Minamoto',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Ghislaine_6028.jpg',
+    price: 410,
   },
   {
     id: 9,
@@ -66,6 +74,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Tokio',
     name: 'Hasimoto',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Birman2.jpg',
+    price: 420,
   },
   {
     id: 10,
@@ -73,6 +82,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Beijing',
     name: 'Luiza',
     imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/0/06/Birmanstrofe.jpg',
+    price: 480,
   },
   {
     id: 11,
@@ -81,6 +91,7 @@ export const catsData: Array<ICatObject> = [
     name: 'Lola',
     imageSrc:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Best_Stalk.jpg/1280px-Best_Stalk.jpg',
+    price: 500,
   },
   {
     id: 12,
@@ -89,6 +100,7 @@ export const catsData: Array<ICatObject> = [
     name: 'Zephyr',
     imageSrc:
       'https://upload.wikimedia.org/wikipedia/en/thumb/d/d6/Catbengalinbedresting.jpg/1024px-Catbengalinbedresting.jpg',
+    price: 600,
   },
   {
     id: 13,
@@ -96,6 +108,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'New York',
     name: 'Star',
     imageSrc: 'https://house-animals.ru/sites/default/files/media/user-1/cornish-rex-cat.jpg',
+    price: 700,
   },
   {
     id: 14,
@@ -103,6 +116,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Los Angeles',
     name: 'Moona',
     imageSrc: 'https://i.pinimg.com/originals/90/8d/12/908d123c4a38f8e8bad5eece1968654a.jpg',
+    price: 750,
   },
   {
     id: 15,
@@ -110,6 +124,7 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Chicago',
     name: 'Lollipop',
     imageSrc: 'https://kot-pes.com/wp-content/uploads/2019/01/post_5c47684e9a452.jpg',
+    price: 400,
   },
   {
     id: 16,
@@ -117,5 +132,6 @@ export const catsData: Array<ICatObject> = [
     homeCity: 'Istanbul',
     name: 'CookieCat',
     imageSrc: 'https://kot-pes.com/wp-content/uploads/2019/02/post_5c48b6275c49e.jpg',
+    price: 500,
   },
 ];

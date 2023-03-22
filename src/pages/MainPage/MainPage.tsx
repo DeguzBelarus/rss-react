@@ -66,6 +66,7 @@ export class MainPage extends Component<object, State> {
                   id={catData.id}
                   imageSrc={catData.imageSrc}
                   name={catData.name}
+                  price={catData.price}
                   key={catData.id}
                 />
               );
