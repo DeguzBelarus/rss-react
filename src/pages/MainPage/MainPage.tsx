@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Header } from 'components/Header/Header';
 import { ICatObject } from 'types/types';
 import { catsData } from 'catsData';
-import './MainPage.scss';
 import { CatItem } from './components/CatItem/CatItem';
+import './MainPage.scss';
 
 interface State {
   filterKey: string;
