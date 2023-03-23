@@ -10,10 +10,15 @@ a {
   text-decoration: none;
 }
 
-input {
+input,
+select {
   &:focus {
     outline: none;
   }
+}
+
+button {
+  cursor: pointer;
 }
 
 body {

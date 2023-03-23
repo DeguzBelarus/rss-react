@@ -12,3 +12,16 @@ export interface ICatObject {
   city: string;
   price: number;
 }
+
+export interface IBuyerInfoObject {
+  name: string;
+  purchaseDate: string;
+  notificationConfirmation: string;
+  isDeliveryNeeded: string;
+}
+
+export interface IOrderObject {
+  id: number;
+  catInfo: ICatObject;
+  buyerInfo: IBuyerInfoObject;
+}

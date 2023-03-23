@@ -1,0 +1,66 @@
+@import '../../../../variables';
+
+.order-form-wrapper {
+  width: 550px;
+  height: auto;
+  @include flex-line-spacebetween-vertical-center;
+  position: relative;
+  border: 1px solid #222;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 2px;
+
+  form {
+    width: 40%;
+    height: auto;
+    @include flex-column-line-center-vertical-top;
+    gap: 5px;
+
+    label {
+      position: relative;
+      @include flex-column-line-center-vertical-top;
+    }
+
+    .delivery-label {
+      @include flex-all-center;
+      flex-direction: row;
+      gap: 5px;
+
+      input {
+        cursor: pointer;
+      }
+    }
+
+    .profile-image-label {
+      @include flex-all-center;
+      flex-direction: row;
+      padding: 5px;
+      border: 1px solid #000;
+      cursor: pointer;
+
+      &.file-input-with-file {
+        background-color: yellowgreen;
+      }
+
+      input {
+        visibility: hidden;
+        position: absolute
+      }
+    }
+
+    .news-confirmation-container {
+      @include flex-all-center;
+      gap: 5px;
+    }
+
+    .order-submit-button {
+      @include flex-all-center;
+      padding: 5px 12px;
+    }
+  }
+
+  .cat-preview-image {
+    width: 250px;
+    aspect-ratio: 16/9;
+  }
+}

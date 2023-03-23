@@ -1,0 +1,16 @@
+@import '../../../../../variables';
+
+.form-message-wrapper {
+  @include flex-all-center;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  border: 1px solid #222;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 2px;
+
+  .message-span {
+    color: rebeccapurple;
+  }
+}

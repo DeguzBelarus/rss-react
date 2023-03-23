@@ -1,0 +1,11 @@
+@import '../../../../variables';
+
+.order-item-wrapper {
+  width: 100%;
+  height: auto;
+  @include flex-column-line-center-vertical-top;
+  border: 1px solid #222;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 2px;
+}
