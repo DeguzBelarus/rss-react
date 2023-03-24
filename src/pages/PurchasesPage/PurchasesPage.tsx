@@ -29,6 +29,25 @@ export class PurchasesPage extends Component<object, State> {
     });
   };
 
+  ordersLoadData() {
+    if (localStorage.getItem('rss-save-orders')) {
+      this.setState({
+        orders: JSON.parse(localStorage.getItem('rss-save-orders') || ''),
+      });
+    }
+  }
+
+  componentDidMount(): void {
+    this.ordersLoadData();
+  }
+
+  componentDidUpdate(prevProps: object, prevState: State): void {
+    const { orders } = this.state;
+    if (prevState.orders.length !== orders.length) {
+      localStorage.setItem('rss-save-orders', JSON.stringify(orders));
+    }
+  }
+
   render() {
     const { orders } = this.state;
     return (
