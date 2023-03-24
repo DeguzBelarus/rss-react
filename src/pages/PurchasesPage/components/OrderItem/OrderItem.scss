@@ -2,10 +2,30 @@
 
 .order-item-wrapper {
   width: 100%;
-  height: auto;
-  @include flex-column-line-center-vertical-top;
+  height: 60px;
+  @include flex-line-start-vertical-center;
+  gap: 5px;
   border: 1px solid #222;
   background-color: #fff;
   padding: 5px;
   border-radius: 2px;
+
+  img {
+    height: 3em;
+  }
+
+  .order-info-container {
+    @include flex-column-line-start-vertical-center;
+    gap: 3px;
+  }
+
+  .cat-price-span {
+    margin-left: auto;
+  }
+
+  .order-cancel-button {
+    height: 90%;
+    padding: 5px;
+    background-color: #fff;
+  }
 }

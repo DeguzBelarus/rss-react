@@ -38,6 +38,7 @@ export class PurchasesPage extends Component<object, State> {
           <h1>Your purchases</h1>
           <OrderForm orderAdd={this.orderAdd} orders={orders} />
           <div className={orders.length ? 'purchases-container' : 'purchases-container empty'}>
+            <h3>{`Cats owned: ${orders.length || '-'} `}😽</h3>
             {orders.length ? (
               orders.map((order) => {
                 return (

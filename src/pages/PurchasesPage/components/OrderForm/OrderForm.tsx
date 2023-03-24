@@ -133,6 +133,14 @@ export class OrderForm extends Component<Props, State> {
         return false;
       }
 
+      if (nameInputValueWords[2]) {
+        this.setState({
+          formMessageType: 'error',
+          formMessage: 'Two words maximum',
+        });
+        return false;
+      }
+
       if (!this.dateInput.current.value) {
         this.setState({
           formMessageType: 'error',
@@ -192,7 +200,7 @@ export class OrderForm extends Component<Props, State> {
         buyerInfo: {
           name: this.nameInput.current!.value,
           purchaseDate: this.dateInput.current!.value,
-          isDeliveryNeeded: this.deliveryCheckbox.current!.value,
+          isDeliveryNeeded: this.deliveryCheckbox.current!.checked ? 'yes' : 'no',
           notificationConfirmation: this.disagreeNewsRadio.current?.checked
             ? this.disagreeNewsRadio.current!.value
             : this.agreeNewsRadio.current!.value,
@@ -203,7 +211,9 @@ export class OrderForm extends Component<Props, State> {
         formMessageType: 'success',
         formMessage: 'Your order is accepted!',
         selectedCatImageSrc: null,
+        isProfileImageLoaded: false,
       });
+      this.profileImageFileInput.current!.files = null;
       event.currentTarget.reset();
     }
   };
@@ -295,7 +305,7 @@ export class OrderForm extends Component<Props, State> {
             }
             htmlFor="profile-image-file-input"
           >
-            {isProfileImageLoaded ? 'Profile image added' : 'Upload a profile image'}
+            {isProfileImageLoaded ? 'profile image added ' : 'upload a profile image '}👦
             <input
               id="profile-image-file-input"
               type="file"
@@ -306,7 +316,7 @@ export class OrderForm extends Component<Props, State> {
             />
           </label>
           <button className="order-submit-button" type="submit">
-            Accept
+            Accept Order
           </button>
         </form>
         <img

@@ -19,6 +19,18 @@
     label {
       position: relative;
       @include flex-column-line-center-vertical-top;
+
+      input[type=text],
+      input[type=date],
+      select {
+        width: 200px;
+        height: 25px;
+        padding-left: 2px;
+      }
+
+      select {
+        text-align: center;
+      }
     }
 
     .delivery-label {
@@ -34,7 +46,7 @@
     .profile-image-label {
       @include flex-all-center;
       flex-direction: row;
-      padding: 5px;
+      padding: 3px 10px;
       border: 1px solid #000;
       cursor: pointer;
 
@@ -54,8 +66,11 @@
     }
 
     .order-submit-button {
+      height: 90%;
       @include flex-all-center;
       padding: 5px 12px;
+      margin-top: 20px;
+      background-color: #fff;
     }
   }
 
