@@ -2,6 +2,7 @@
 export type Nullable<T> = T | null;
 export type Undefinable<T> = T | undefined;
 export type HeaderOriginType = 'main-page' | 'about-page' | 'purchases-page';
+export type FormMessageType = 'success' | 'error';
 
 // interfaces
 export interface ICatObject {

@@ -1,7 +1,7 @@
 import React, { Component, createRef, RefObject } from 'react';
 
 import { catsData } from 'catsData';
-import { ICatObject, IOrderObject, Nullable } from 'types/types';
+import { FormMessageType, ICatObject, IOrderObject, Nullable } from 'types/types';
 import { FormMessage } from './FormMessage/FormMessage';
 import './OrderForm.scss';
 
@@ -13,7 +13,8 @@ interface Props {
 interface State {
   selectedCatImageSrc: Nullable<string>;
   isProfileImageLoaded: boolean;
-  formErrorMessage: string;
+  formMessage: string;
+  formMessageType: FormMessageType;
 }
 
 export class OrderForm extends Component<Props, State> {
@@ -38,7 +39,8 @@ export class OrderForm extends Component<Props, State> {
     this.state = {
       selectedCatImageSrc: null,
       isProfileImageLoaded: false,
-      formErrorMessage: '',
+      formMessage: '',
+      formMessageType: 'success',
     };
   }
 
@@ -63,7 +65,8 @@ export class OrderForm extends Component<Props, State> {
 
   formMessagesClearing() {
     this.setState({
-      formErrorMessage: '',
+      formMessage: '',
+      formMessageType: 'success',
     });
   }
 
@@ -112,7 +115,8 @@ export class OrderForm extends Component<Props, State> {
     ) {
       if (!this.nameInput.current.value) {
         this.setState({
-          formErrorMessage: "Enter the buyer's first and last name",
+          formMessageType: 'error',
+          formMessage: "Enter the buyer's first and last name",
         });
         return false;
       }
@@ -123,14 +127,16 @@ export class OrderForm extends Component<Props, State> {
         nameInputValueWords[1]?.length < 2
       ) {
         this.setState({
-          formErrorMessage: 'At least two words with more than 2 characters',
+          formMessageType: 'error',
+          formMessage: 'At least two words with more than 2 characters',
         });
         return false;
       }
 
       if (!this.dateInput.current.value) {
         this.setState({
-          formErrorMessage: 'Enter the date of purchase',
+          formMessageType: 'error',
+          formMessage: 'Enter the date of purchase',
         });
         return false;
       }
@@ -141,14 +147,16 @@ export class OrderForm extends Component<Props, State> {
         !this.dateStringValidator(dateInputValueWords[2])
       ) {
         this.setState({
-          formErrorMessage: 'Enter the correct date',
+          formMessageType: 'error',
+          formMessage: 'Enter the correct date',
         });
         return false;
       }
 
       if (!this.catSelector.current.value) {
         this.setState({
-          formErrorMessage: 'Choose a cat to buy',
+          formMessageType: 'error',
+          formMessage: 'Choose a cat to buy',
         });
         return false;
       }
@@ -158,7 +166,8 @@ export class OrderForm extends Component<Props, State> {
         !this.profileImageFileInput.current.files[0]
       ) {
         this.setState({
-          formErrorMessage: 'Upload a profile image',
+          formMessageType: 'error',
+          formMessage: 'Upload a profile image',
         });
         return false;
       }
@@ -190,15 +199,21 @@ export class OrderForm extends Component<Props, State> {
         },
       };
       orderAdd(orderData);
+      this.setState({
+        formMessageType: 'success',
+        formMessage: 'Your order is accepted!',
+        selectedCatImageSrc: null,
+      });
+      event.currentTarget.reset();
     }
   };
 
   render() {
     const { orders } = this.props;
-    const { selectedCatImageSrc, isProfileImageLoaded, formErrorMessage } = this.state;
+    const { selectedCatImageSrc, isProfileImageLoaded, formMessage, formMessageType } = this.state;
     return (
       <div className="order-form-wrapper" data-testid="app-order-form">
-        {formErrorMessage ? <FormMessage message={formErrorMessage} /> : null}
+        {formMessage ? <FormMessage message={formMessage} messageType={formMessageType} /> : null}
         <form onSubmit={this.orderSubmit}>
           <label>
             Buyer&apos;s name and last name:

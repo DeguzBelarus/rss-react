@@ -2,15 +2,24 @@
 
 .form-message-wrapper {
   @include flex-all-center;
+  @include user-select-none;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  bottom: 5px;
+  right: 5px;
   border: 1px solid #222;
   background-color: #fff;
   padding: 5px;
   border-radius: 2px;
 
   .message-span {
-    color: rebeccapurple;
+    font-weight: bold;
+
+    &:not(.error-message) {
+      color: green;
+    }
+
+    &.error-message {
+      color: red;
+    }
   }
 }
