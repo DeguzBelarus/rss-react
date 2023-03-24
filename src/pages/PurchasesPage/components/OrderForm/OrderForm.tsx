@@ -232,6 +232,7 @@ export class OrderForm extends Component<Props, State> {
               placeholder="Enter name and last name..."
               autoComplete="false"
               ref={this.nameInput}
+              data-testid="app-name-input"
             />
           </label>
           <label htmlFor="date-input">
@@ -241,6 +242,7 @@ export class OrderForm extends Component<Props, State> {
               type="date"
               title="Specify the date of purchase"
               ref={this.dateInput}
+              data-testid="app-date-input"
             />
           </label>
           <label>
@@ -249,6 +251,7 @@ export class OrderForm extends Component<Props, State> {
               title="Select a cat to buy"
               onChange={this.selectedCatImageUpdate}
               ref={this.catSelector}
+              data-testid="app-cat-selector"
             >
               <option value="">-- Choose a cat to buy --</option>
               {catsData
@@ -274,6 +277,7 @@ export class OrderForm extends Component<Props, State> {
                 name="notificationConfirmation"
                 value={'yes'}
                 ref={this.agreeNewsRadio}
+                data-testid="app-notification-agree-radio"
               />
             </label>
             <label>
@@ -285,6 +289,7 @@ export class OrderForm extends Component<Props, State> {
                 defaultChecked={true}
                 value={'no'}
                 ref={this.disagreeNewsRadio}
+                data-testid="app-notification-disagree-radio"
               />
             </label>
           </div>
@@ -295,6 +300,7 @@ export class OrderForm extends Component<Props, State> {
               title="I need delivery"
               name="isDeliveryNeeded"
               ref={this.deliveryCheckbox}
+              data-testid="app-delivery-checkbox"
             />
           </label>
           <label
@@ -313,9 +319,14 @@ export class OrderForm extends Component<Props, State> {
               accept="image/png, image/jpeg"
               onChange={this.profileImageLoadHandler}
               ref={this.profileImageFileInput}
+              data-testid="app-profile-file-input"
             />
           </label>
-          <button className="order-submit-button" type="submit">
+          <button
+            className="order-submit-button"
+            type="submit"
+            data-testid="app-order-accept-button"
+          >
             Accept Order
           </button>
         </form>
