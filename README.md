@@ -10,4 +10,8 @@ the rs school react course repo
 
 ## test coverage ( % Stmts)
 
-87.5%
+74.0%
+
+## task 2 - React Forms
+
+follow the following route: `/purchases`
