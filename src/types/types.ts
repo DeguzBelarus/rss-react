@@ -26,3 +26,12 @@ export interface IOrderObject {
   catInfo: ICatObject;
   buyerInfo: IBuyerInfoObject;
 }
+
+export interface IOrderFormSaveObject {
+  nameInputValue: string;
+  dateInputValue: string;
+  catSelectorValue: string;
+  agreeNewRadioCheckedStatus: boolean;
+  disagreeNewRadioCheckedStatus: boolean;
+  deliveryCheckboxCheckedStatus: boolean;
+}

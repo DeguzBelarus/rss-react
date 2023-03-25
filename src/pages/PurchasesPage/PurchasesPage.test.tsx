@@ -5,7 +5,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from 'components/App';
 
 const catSelectorOptionsCount = 17;
-const firstOrder = 1;
+const singleOrder = 1;
 
 const renderPurchasesPage = (): void => {
   const purchasesRoute = '/purchases';
@@ -33,8 +33,7 @@ describe('Purchases page tests', (): void => {
     renderPurchasesPage();
     fireEvent.input(screen.getByTestId('app-name-input'), { target: { value: 'Hello Hello' } });
     fireEvent.input(screen.getByTestId('app-date-input'), { target: { value: '2023-03-22' } });
-    fireEvent.click(screen.getByTestId('app-cat-selector'));
-    fireEvent.click(screen.getByRole('option', { name: 'Felix' }));
+    fireEvent.change(screen.getByTestId('app-cat-selector'), { target: { value: '1' } });
     fireEvent.click(screen.getByTestId('app-notification-agree-radio'));
     fireEvent.click(screen.getByTestId('app-delivery-checkbox'));
 
@@ -44,6 +43,6 @@ describe('Purchases page tests', (): void => {
     });
 
     fireEvent.click(screen.getByTestId('app-order-accept-button'));
-    expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(firstOrder);
+    expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(singleOrder);
   });
 });

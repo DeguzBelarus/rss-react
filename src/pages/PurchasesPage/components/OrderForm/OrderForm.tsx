@@ -1,7 +1,13 @@
 import React, { Component, createRef, RefObject } from 'react';
 
 import { catsData } from 'catsData';
-import { FormMessageType, ICatObject, IOrderObject, Nullable } from 'types/types';
+import {
+  FormMessageType,
+  ICatObject,
+  IOrderFormSaveObject,
+  IOrderObject,
+  Nullable,
+} from 'types/types';
 import { FormMessage } from './FormMessage/FormMessage';
 import './OrderForm.scss';
 
@@ -43,16 +49,6 @@ export class OrderForm extends Component<Props, State> {
       formMessageType: 'success',
     };
   }
-
-  selectedCatImageUpdate = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    if (value && catsData) {
-      this.setState({
-        selectedCatImageSrc:
-          catsData.find((catData) => catData.id === Number(value))?.imageSrc || null,
-      });
-    }
-  };
 
   profileImageLoadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -218,6 +214,52 @@ export class OrderForm extends Component<Props, State> {
     }
   };
 
+  formDataLoad() {
+    if (localStorage.getItem('rss-save-form')) {
+      const formSave = JSON.parse(
+        localStorage.getItem('rss-save-form') || ''
+      ) as IOrderFormSaveObject;
+      this.nameInput.current!.value = formSave.nameInputValue;
+      this.dateInput.current!.value = formSave.dateInputValue;
+      this.catSelector.current!.value = formSave.catSelectorValue;
+      this.setState({
+        selectedCatImageSrc:
+          catsData.find((catData) => catData.id === Number(this.catSelector.current!.value))
+            ?.imageSrc || null,
+      });
+      this.agreeNewsRadio.current!.checked = formSave.agreeNewRadioCheckedStatus;
+      this.disagreeNewsRadio.current!.checked = formSave.disagreeNewRadioCheckedStatus;
+      this.deliveryCheckbox.current!.checked = formSave.deliveryCheckboxCheckedStatus;
+    }
+  }
+
+  formDataSave() {
+    const formDataSave: IOrderFormSaveObject = {
+      nameInputValue: this.nameInput.current!.value,
+      dateInputValue: this.dateInput.current!.value,
+      catSelectorValue: this.catSelector.current!.value,
+      agreeNewRadioCheckedStatus: this.agreeNewsRadio.current!.checked,
+      disagreeNewRadioCheckedStatus: this.disagreeNewsRadio.current!.checked,
+      deliveryCheckboxCheckedStatus: this.deliveryCheckbox.current!.checked,
+    };
+    localStorage.setItem('rss-save-form', JSON.stringify(formDataSave));
+  }
+
+  selectedCatImageUpdate = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    if (value && catsData) {
+      this.setState({
+        selectedCatImageSrc:
+          catsData.find((catData) => catData.id === Number(value))?.imageSrc || null,
+      });
+    }
+    this.formDataSave();
+  };
+
+  componentDidMount(): void {
+    this.formDataLoad();
+  }
+
   render() {
     const { orders } = this.props;
     const { selectedCatImageSrc, isProfileImageLoaded, formMessage, formMessageType } = this.state;
@@ -231,6 +273,7 @@ export class OrderForm extends Component<Props, State> {
               type="text"
               placeholder="Enter name and last name..."
               autoComplete="false"
+              onChange={() => this.formDataSave()}
               ref={this.nameInput}
               data-testid="app-name-input"
             />
@@ -241,6 +284,7 @@ export class OrderForm extends Component<Props, State> {
               id="date-input"
               type="date"
               title="Specify the date of purchase"
+              onChange={() => this.formDataSave()}
               ref={this.dateInput}
               data-testid="app-date-input"
             />
@@ -276,6 +320,7 @@ export class OrderForm extends Component<Props, State> {
                 title="agree to receive news"
                 name="notificationConfirmation"
                 value={'yes'}
+                onClick={() => this.formDataSave()}
                 ref={this.agreeNewsRadio}
                 data-testid="app-notification-agree-radio"
               />
@@ -288,6 +333,7 @@ export class OrderForm extends Component<Props, State> {
                 name="notificationConfirmation"
                 defaultChecked={true}
                 value={'no'}
+                onClick={() => this.formDataSave()}
                 ref={this.disagreeNewsRadio}
                 data-testid="app-notification-disagree-radio"
               />
@@ -299,6 +345,7 @@ export class OrderForm extends Component<Props, State> {
               type="checkbox"
               title="I need delivery"
               name="isDeliveryNeeded"
+              onClick={() => this.formDataSave()}
               ref={this.deliveryCheckbox}
               data-testid="app-delivery-checkbox"
             />
@@ -318,6 +365,7 @@ export class OrderForm extends Component<Props, State> {
               name="profile-image"
               accept="image/png, image/jpeg"
               onChange={this.profileImageLoadHandler}
+              multiple={false}
               ref={this.profileImageFileInput}
               data-testid="app-profile-file-input"
             />
