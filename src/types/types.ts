@@ -19,6 +19,7 @@ export interface IBuyerInfoObject {
   purchaseDate: string;
   notificationConfirmation: string;
   isDeliveryNeeded: string;
+  profileImage?: string;
 }
 
 export interface IOrderObject {
@@ -34,4 +35,5 @@ export interface IOrderFormSaveObject {
   agreeNewRadioCheckedStatus: boolean;
   disagreeNewRadioCheckedStatus: boolean;
   deliveryCheckboxCheckedStatus: boolean;
+  profileImage?: string;
 }

@@ -19,6 +19,12 @@ export class OrderItem extends Component<Props> {
           <span>{`date: ${buyerInfo.purchaseDate}`}</span>
           <span>{`owner: ${buyerInfo.name}`}</span>
         </div>
+        {buyerInfo.profileImage ? (
+          <>
+            <span>avatar:</span>
+            <img src={buyerInfo.profileImage} alt="a cat preview" />
+          </>
+        ) : null}
         <span className="cat-price-span">{`${catInfo.price}$`}</span>
         {buyerInfo.isDeliveryNeeded === 'yes' ? <span>🚚</span> : <span>🏃</span>}
         {buyerInfo.notificationConfirmation === 'yes' ? <span>✉️</span> : null}

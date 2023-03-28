@@ -202,6 +202,15 @@ export class OrderForm extends Component<Props, State> {
             : this.agreeNewsRadio.current!.value,
         },
       };
+      if (
+        this.profileImageFileInput.current?.files &&
+        this.profileImageFileInput.current.files[0]
+      ) {
+        orderData.buyerInfo.profileImage = URL.createObjectURL(
+          this.profileImageFileInput.current.files[0]
+        );
+      }
+
       orderAdd(orderData);
       this.setState({
         formMessageType: 'success',
@@ -210,6 +219,7 @@ export class OrderForm extends Component<Props, State> {
         isProfileImageLoaded: false,
       });
       this.profileImageFileInput.current!.files = null;
+      localStorage.removeItem('rss-save-form');
       event.currentTarget.reset();
     }
   };
@@ -242,6 +252,9 @@ export class OrderForm extends Component<Props, State> {
       disagreeNewRadioCheckedStatus: this.disagreeNewsRadio.current!.checked,
       deliveryCheckboxCheckedStatus: this.deliveryCheckbox.current!.checked,
     };
+    if (this.profileImageFileInput.current?.files && this.profileImageFileInput.current.files[0]) {
+      formDataSave.profileImage = URL.createObjectURL(this.profileImageFileInput.current.files[0]);
+    }
     localStorage.setItem('rss-save-form', JSON.stringify(formDataSave));
   }
 

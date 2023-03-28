@@ -42,6 +42,7 @@ describe('Purchases page tests', (): void => {
       target: { files: [file] },
     });
 
+    global.URL.createObjectURL = jest.fn(() => 'details');
     fireEvent.click(screen.getByTestId('app-order-accept-button'));
     expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(singleOrder);
   });
