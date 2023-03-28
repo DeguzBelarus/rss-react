@@ -1,0 +1,54 @@
+@import '../../variables';
+
+header {
+  width: 100%;
+  height: $header-height + px;
+  @include flex-line-start-vertical-center;
+  @include user-select-none;
+  border: 1px solid #000;
+  background-color: steelblue;
+  transition: background-color 0.5s linear;
+
+  &.search-mode-header {
+    background-color: rgba($color: violet, $alpha: 0.9);
+
+    .filter-input {
+      width: 300px !important;
+    }
+  }
+
+  .filter-input-container {
+    width: 100%;
+    height: 100%;
+    @include flex-all-center;
+
+    .filter-input {
+      width: 140px;
+      height: 30px;
+      padding: 5px;
+      margin: 0 auto;
+      border: 1px solid #000;
+      border-radius: 3px;
+      transition: width 0.5s linear;
+    }
+  }
+
+  .pages-links-container {
+    min-width: 250px;
+    @include flex-all-center;
+    gap: 12px;
+    margin-left: auto;
+    margin-right: 5px;
+
+    .current-page-span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    a {
+      width: max-content;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+}
