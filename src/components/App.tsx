@@ -1,11 +1,8 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-import { AppRouter } from 'AppRouter/AppRouter';
+import { useRoutes } from 'hooks/useRoutes';
 
 export const App: FC = () => {
-  return (
-    <>
-      <AppRouter />
-    </>
-  );
+  const routes = useRoutes();
+  return routes;
 };
