@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import App from 'components/App';
+import { App } from 'components/App';
 
 const filteredCatCardsCount = 5;
 const renderApplication = (): void => {

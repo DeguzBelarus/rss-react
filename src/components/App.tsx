@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 
 import { AppRouter } from 'AppRouter/AppRouter';
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <AppRouter />
-      </>
-    );
-  }
-}
-
-export default App;
+export const App: FC = () => {
+  return (
+    <>
+      <AppRouter />
+    </>
+  );
+};

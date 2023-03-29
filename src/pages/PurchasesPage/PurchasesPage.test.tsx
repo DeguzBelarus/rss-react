@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import App from 'components/App';
+import { App } from 'components/App';
 
 const catSelectorOptionsCount = 17;
 const singleOrder = 1;
