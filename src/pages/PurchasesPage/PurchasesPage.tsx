@@ -1,81 +1,64 @@
-import React, { Component } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { Header } from 'components/Header/Header';
 import { OrderItem } from './components/OrderItem/OrderItem';
 import { IOrderObject } from 'types/types';
-import './PurchasesPage.scss';
 import { OrderForm } from './components/OrderForm/OrderForm';
+import './PurchasesPage.scss';
 
-interface State {
-  orders: Array<IOrderObject>;
-}
+export const PurchasesPage: FC = () => {
+  const [orders, setOrders] = useState<Array<IOrderObject>>([]);
+  const [isOrdersLoaded, setIsOrdersLoaded] = useState(false);
 
-export class PurchasesPage extends Component<object, State> {
-  state: State = {
-    orders: [],
+  const orderAdd = (order: IOrderObject) => {
+    setOrders([...orders, order]);
   };
 
-  orderAdd = (order: IOrderObject) => {
-    const { orders } = this.state;
-    this.setState({
-      orders: [...orders, order],
-    });
+  const orderRemove = (id: number) => {
+    setOrders(orders.filter((order) => order.id !== id));
   };
 
-  orderRemove = (id: number) => {
-    const { orders } = this.state;
-    this.setState({
-      orders: orders.filter((order) => order.id !== id),
-    });
-  };
-
-  ordersLoadData() {
+  const ordersLoadData = () => {
     if (localStorage.getItem('rss-save-orders')) {
-      this.setState({
-        orders: JSON.parse(localStorage.getItem('rss-save-orders') || ''),
-      });
+      setOrders(JSON.parse(localStorage.getItem('rss-save-orders') || ''));
     }
-  }
+    setIsOrdersLoaded(true);
+  };
 
-  componentDidMount(): void {
-    this.ordersLoadData();
-  }
-
-  componentDidUpdate(prevProps: object, prevState: State): void {
-    const { orders } = this.state;
-    if (prevState.orders.length !== orders.length) {
+  useEffect(() => {
+    if (isOrdersLoaded) {
       localStorage.setItem('rss-save-orders', JSON.stringify(orders));
     }
-  }
+  }, [orders, isOrdersLoaded]);
 
-  render() {
-    const { orders } = this.state;
-    return (
-      <>
-        <Header origin="purchases-page" />
-        <div className="purchases-page-wrapper" data-testid="purchases-page">
-          <h1>Your purchases</h1>
-          <OrderForm orderAdd={this.orderAdd} orders={orders} />
-          <div className={orders.length ? 'purchases-container' : 'purchases-container empty'}>
-            <h3>{`Cats owned: ${orders.length || '-'} `}😽</h3>
-            {orders.length ? (
-              orders.map((order) => {
-                return (
-                  <OrderItem
-                    buyerInfo={order.buyerInfo}
-                    catInfo={order.catInfo}
-                    id={order.id}
-                    orderRemove={this.orderRemove}
-                    key={order.id}
-                  />
-                );
-              })
-            ) : (
-              <p>There are no orders here...</p>
-            )}
-          </div>
+  useEffect(() => {
+    ordersLoadData();
+  }, []);
+  return (
+    <>
+      <Header origin="purchases-page" />
+      <div className="purchases-page-wrapper" data-testid="purchases-page">
+        <h1>Your purchases</h1>
+        <OrderForm orderAdd={orderAdd} orders={orders} />
+        <div className={orders.length ? 'purchases-container' : 'purchases-container empty'}>
+          <h3>{`Cats owned: ${orders.length || '-'} `}😽</h3>
+          {orders.length ? (
+            orders.map((order) => {
+              return (
+                <OrderItem
+                  buyerInfo={order.buyerInfo}
+                  catInfo={order.catInfo}
+                  id={order.id}
+                  orderRemove={orderRemove}
+                  key={order.id}
+                />
+              );
+            })
+          ) : (
+            <p>There are no orders here...</p>
+          )}
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
