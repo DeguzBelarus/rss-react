@@ -1,3 +1,5 @@
+import { FormUserAnswersEnum } from 'constants/constants';
+
 // types
 export type Nullable<T> = T | null;
 export type Undefinable<T> = T | undefined;
@@ -17,9 +19,9 @@ export interface ICatObject {
 export interface IBuyerInfoObject {
   name: string;
   purchaseDate: string;
-  notificationConfirmation: string;
-  isDeliveryNeeded: string;
-  profileImage?: string;
+  notificationConfirmation: FormUserAnswersEnum;
+  isDeliveryNeeded: boolean;
+  profileImage?: Nullable<string>;
 }
 
 export interface IOrderObject {
@@ -28,12 +30,11 @@ export interface IOrderObject {
   buyerInfo: IBuyerInfoObject;
 }
 
-export interface IOrderFormSaveObject {
-  nameInputValue: string;
-  dateInputValue: string;
-  catSelectorValue: string;
-  agreeNewRadioCheckedStatus: boolean;
-  disagreeNewRadioCheckedStatus: boolean;
-  deliveryCheckboxCheckedStatus: boolean;
-  profileImage?: string;
+export interface IFormInputs {
+  name: string;
+  date: string;
+  notificationConfirmation: FormUserAnswersEnum;
+  isDeliveryNeeded: boolean;
+  profileImage: FileList;
+  catSelector: string;
 }

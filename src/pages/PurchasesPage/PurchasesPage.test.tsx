@@ -1,9 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
 import { App } from 'components/App';
-
 const catSelectorOptionsCount = 17;
 const singleOrder = 1;
 
@@ -31,19 +30,20 @@ describe('Purchases page tests', (): void => {
 
   test('emulates order process', async () => {
     renderPurchasesPage();
-    fireEvent.input(screen.getByTestId('app-name-input'), { target: { value: 'Hello Hello' } });
-    fireEvent.input(screen.getByTestId('app-date-input'), { target: { value: '2023-03-22' } });
-    fireEvent.change(screen.getByTestId('app-cat-selector'), { target: { value: '1' } });
-    fireEvent.click(screen.getByTestId('app-notification-agree-radio'));
-    fireEvent.click(screen.getByTestId('app-delivery-checkbox'));
-
-    const file = new File(['(⌐□_□)'], 'deguz.png', { type: 'image/png' });
-    fireEvent.change(screen.getByTestId('app-profile-file-input'), {
-      target: { files: [file] },
+    await act(async () => {
+      expect(screen.getByRole('option', { name: '-- Choose a cat to buy --' })).toBeInTheDocument();
+      fireEvent.change(screen.getByTestId('app-cat-selector'), { target: { value: '1' } });
+      fireEvent.input(screen.getByTestId('app-name-input'), { target: { value: 'Hello Hello' } });
+      fireEvent.input(screen.getByTestId('app-date-input'), { target: { value: '2023-03-22' } });
+      fireEvent.click(screen.getByTestId('app-notification-agree-radio'));
+      fireEvent.click(screen.getByTestId('app-delivery-checkbox'));
+      global.URL.createObjectURL = jest.fn(() => 'details');
+      const file = new File(['image'], 'deguz.png', { type: 'image/png' });
+      fireEvent.change(screen.getByTestId('app-profile-file-input'), {
+        target: { files: [file] },
+      });
+      fireEvent.click(screen.getByTestId('app-order-accept-button'));
     });
-
-    global.URL.createObjectURL = jest.fn(() => 'details');
-    fireEvent.click(screen.getByTestId('app-order-accept-button'));
     expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(singleOrder);
   });
 });

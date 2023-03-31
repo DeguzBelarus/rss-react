@@ -66,10 +66,12 @@
     }
 
     .order-submit-button {
+      width: 200px;
       height: 90%;
       @include flex-all-center;
       padding: 5px 12px;
       margin-top: 20px;
+      font-weight: bold;
       background-color: #fff;
     }
   }

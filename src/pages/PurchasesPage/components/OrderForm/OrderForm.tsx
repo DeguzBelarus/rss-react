@@ -1,14 +1,11 @@
-import React, { FC, useRef, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { catsData } from 'catsData';
-import {
-  FormMessageType,
-  ICatObject,
-  IOrderFormSaveObject,
-  IOrderObject,
-  Nullable,
-} from 'types/types';
-import { FormMessage } from './FormMessage/FormMessage';
+import { FormMessageType, ICatObject, IOrderObject, Nullable, IFormInputs } from 'types/types';
+import { FormUserAnswersEnum, emptyString } from '../../../../constants/constants';
+import { yearStringValidator, monthStringValidator, dateStringValidator } from './utils/utils';
+import { FormMessage } from './components/FormMessage/FormMessage';
 import './OrderForm.scss';
 
 interface Props {
@@ -17,23 +14,24 @@ interface Props {
 }
 
 export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
-  const nameInput = useRef<HTMLInputElement>(null);
-  const dateInput = useRef<HTMLInputElement>(null);
-  const catSelector = useRef<HTMLSelectElement>(null);
-  const agreeNewsRadio = useRef<HTMLInputElement>(null);
-  const disagreeNewsRadio = useRef<HTMLInputElement>(null);
-  const deliveryCheckbox = useRef<HTMLInputElement>(null);
-  const profileImageFileInput = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm<IFormInputs>();
 
+  const catSelectorValue = watch().catSelector;
   const [selectedCatImageSrc, setSelectedCatImageSrc] = useState<Nullable<string>>(null);
-  const [isProfileImageLoaded, setIsProfileImageLoaded] = useState(false);
-  const [formMessage, setFormMessage] = useState('');
+  const [profileImageLoaded, setProfileImageLoaded] = useState<Nullable<File>>(null);
+  const [formMessage, setFormMessage] = useState(emptyString);
   const [formMessageType, setFormMessageType] = useState<FormMessageType>('success');
 
   const profileImageLoadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     if (files && files[0]) {
-      setIsProfileImageLoaded(true);
+      setProfileImageLoaded(files[0]);
     }
   };
 
@@ -42,219 +40,145 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
     setFormMessageType('success');
   };
 
-  const yearStringValidator = (year: string): boolean => {
-    if (!year || year.length !== 4 || isNaN(Number(year)) || Number(year) < 2000) {
+  const selectedCatImageUpdate = (id: string) => {
+    if (id && catsData) {
+      setSelectedCatImageSrc(
+        catsData.find((catData) => catData.id === Number(id))?.imageSrc || null
+      );
+    }
+  };
+
+  const validateCatSelector = (value: string): boolean => {
+    if (!value) {
+      setFormMessageType('error');
+      setFormMessage('Choose a cat to buy');
       return false;
     }
     return true;
   };
 
-  const monthStringValidator = (month: string): boolean => {
+  const validateDate = (value: string): boolean => {
+    if (!value) {
+      setFormMessageType('error');
+      setFormMessage('Enter the date of purchase');
+      return false;
+    }
+
+    if (value.length !== 10) {
+      setFormMessageType('error');
+      setFormMessage('Enter the correct date');
+      return false;
+    }
+
+    const dateStringArray = value.split('-');
     if (
-      !month ||
-      month.length !== 2 ||
-      isNaN(Number(month)) ||
-      Number(month) < 1 ||
-      Number(month) > 12
+      !yearStringValidator(dateStringArray[0]) ||
+      !monthStringValidator(dateStringArray[1]) ||
+      !dateStringValidator(dateStringArray[2])
     ) {
+      setFormMessageType('error');
+      setFormMessage('Enter the correct date');
       return false;
     }
     return true;
   };
 
-  const dateStringValidator = (date: string): boolean => {
-    if (
-      !date ||
-      date.length !== 2 ||
-      isNaN(Number(date)) ||
-      Number(date) < 1 ||
-      Number(date) > 31
-    ) {
+  const validateName = (value: string): boolean => {
+    if (!value) {
+      setFormMessageType('error');
+      setFormMessage(`Enter the buyer's first and last name`);
+      return false;
+    }
+
+    const pattern = /^[A-Za-zА-Яа-яЁё0-9]{2,}\s[A-Za-zА-Яа-яЁё0-9]{2,}$/;
+    if (!value.match(pattern)) {
+      setFormMessageType('error');
+      setFormMessage('Two words with more than 2 characters');
       return false;
     }
     return true;
   };
 
-  const formValidation = (): boolean => {
-    if (
-      nameInput.current &&
-      dateInput.current &&
-      catSelector.current &&
-      agreeNewsRadio.current &&
-      disagreeNewsRadio.current &&
-      deliveryCheckbox.current &&
-      profileImageFileInput.current
-    ) {
-      if (!nameInput.current.value) {
-        setFormMessageType('error');
-        setFormMessage("Enter the buyer's first and last name");
-        return false;
-      }
-      const nameInputValueWords = nameInput.current.value.split(' ');
-      if (
-        nameInputValueWords[0]?.length < 2 ||
-        !nameInputValueWords[1] ||
-        nameInputValueWords[1]?.length < 2
-      ) {
-        setFormMessageType('error');
-        setFormMessage('At least two words with more than 2 characters');
-        return false;
-      }
-
-      if (nameInputValueWords[2]) {
-        setFormMessageType('error');
-        setFormMessage('Two words maximum');
-        return false;
-      }
-
-      if (!dateInput.current.value) {
-        setFormMessageType('error');
-        setFormMessage('Enter the date of purchase');
-        return false;
-      }
-      const dateInputValueWords = dateInput.current.value.split('-');
-      if (
-        !yearStringValidator(dateInputValueWords[0]) ||
-        !monthStringValidator(dateInputValueWords[1]) ||
-        !dateStringValidator(dateInputValueWords[2])
-      ) {
-        setFormMessageType('error');
-        setFormMessage('Enter the correct date');
-        return false;
-      }
-
-      if (!catSelector.current.value) {
-        setFormMessageType('error');
-        setFormMessage('Choose a cat to buy');
-        return false;
-      }
-
-      if (profileImageFileInput.current.files && !profileImageFileInput.current.files[0]) {
-        setFormMessageType('error');
-        setFormMessage('Upload a profile image');
-        return false;
-      }
-
-      return true;
-    } else {
+  const validateProfileImage = (): boolean => {
+    if (!profileImageLoaded) {
+      setFormMessageType('error');
+      setFormMessage('Upload a profile image');
       return false;
     }
+    return true;
   };
 
-  const orderSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const orderSubmit: SubmitHandler<IFormInputs> = (data) => {
     formMessagesClearing();
-
-    if (formValidation()) {
+    const { name, date, catSelector, isDeliveryNeeded, notificationConfirmation } = data;
+    if (!Object.keys(errors).length) {
       const orderData: IOrderObject = {
         id: orders.length + 1,
-        catInfo: catsData.find(
-          (catData) => catData.id === Number(catSelector.current!.value)
-        ) as ICatObject,
+        catInfo: catsData.find((catData) => catData.id === Number(catSelector)) as ICatObject,
         buyerInfo: {
-          name: nameInput.current!.value,
-          purchaseDate: dateInput.current!.value,
-          isDeliveryNeeded: deliveryCheckbox.current!.checked ? 'yes' : 'no',
-          notificationConfirmation: disagreeNewsRadio.current?.checked
-            ? disagreeNewsRadio.current!.value
-            : agreeNewsRadio.current!.value,
+          name,
+          purchaseDate: date,
+          isDeliveryNeeded,
+          notificationConfirmation,
         },
       };
-      if (profileImageFileInput.current?.files && profileImageFileInput.current.files[0]) {
-        orderData.buyerInfo.profileImage = URL.createObjectURL(
-          profileImageFileInput.current.files[0]
-        );
+      if (profileImageLoaded) {
+        orderData.buyerInfo.profileImage = URL.createObjectURL(profileImageLoaded);
       }
-
       orderAdd(orderData);
       setFormMessageType('success');
       setFormMessage('Your order is accepted!');
       setSelectedCatImageSrc(null);
-      setIsProfileImageLoaded(false);
-      profileImageFileInput.current!.files = null;
+      setProfileImageLoaded(null);
       localStorage.removeItem('rss-save-form');
-      event.currentTarget.reset();
+      reset();
     }
-  };
-
-  const formDataLoad = () => {
-    if (localStorage.getItem('rss-save-form')) {
-      const formSave = JSON.parse(
-        localStorage.getItem('rss-save-form') || ''
-      ) as IOrderFormSaveObject;
-      nameInput.current!.value = formSave.nameInputValue;
-      dateInput.current!.value = formSave.dateInputValue;
-      catSelector.current!.value = formSave.catSelectorValue;
-      setSelectedCatImageSrc(
-        catsData.find((catData) => catData.id === Number(catSelector.current!.value))?.imageSrc ||
-          null
-      );
-      agreeNewsRadio.current!.checked = formSave.agreeNewRadioCheckedStatus;
-      disagreeNewsRadio.current!.checked = formSave.disagreeNewRadioCheckedStatus;
-      deliveryCheckbox.current!.checked = formSave.deliveryCheckboxCheckedStatus;
-    }
-  };
-
-  const formDataSave = () => {
-    const formDataSave: IOrderFormSaveObject = {
-      nameInputValue: nameInput.current!.value,
-      dateInputValue: dateInput.current!.value,
-      catSelectorValue: catSelector.current!.value,
-      agreeNewRadioCheckedStatus: agreeNewsRadio.current!.checked,
-      disagreeNewRadioCheckedStatus: disagreeNewsRadio.current!.checked,
-      deliveryCheckboxCheckedStatus: deliveryCheckbox.current!.checked,
-    };
-    if (profileImageFileInput.current?.files && profileImageFileInput.current.files[0]) {
-      formDataSave.profileImage = URL.createObjectURL(profileImageFileInput.current.files[0]);
-    }
-    localStorage.setItem('rss-save-form', JSON.stringify(formDataSave));
-  };
-
-  const selectedCatImageUpdate = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    if (value && catsData) {
-      setSelectedCatImageSrc(
-        catsData.find((catData) => catData.id === Number(value))?.imageSrc || null
-      );
-    }
-    formDataSave();
   };
 
   useEffect(() => {
-    formDataLoad();
-  }, []);
+    selectedCatImageUpdate(watch().catSelector);
+  }, [watch, catSelectorValue]);
   return (
     <div className="order-form-wrapper" data-testid="app-order-form">
       {formMessage ? <FormMessage message={formMessage} messageType={formMessageType} /> : null}
-      <form onSubmit={orderSubmit}>
+      <form onSubmit={handleSubmit(orderSubmit)}>
         <label>
           Buyer&apos;s name and last name:
           <input
+            {...register('name', {
+              validate: {
+                validate: (value) => validateName(value),
+              },
+            })}
             type="text"
             placeholder="Enter name and last name..."
             autoComplete="false"
-            onChange={() => formDataSave()}
-            ref={nameInput}
             data-testid="app-name-input"
           />
         </label>
         <label htmlFor="date-input">
           Order date:
           <input
+            {...register('date', {
+              validate: {
+                validate: (value) => validateDate(value),
+              },
+            })}
             id="date-input"
             type="date"
             title="Specify the date of purchase"
-            onChange={() => formDataSave()}
-            ref={dateInput}
             data-testid="app-date-input"
           />
         </label>
         <label>
           Selected cat:
           <select
+            {...register('catSelector', {
+              validate: {
+                validate: (value) => validateCatSelector(value),
+              },
+            })}
             title="Select a cat to buy"
-            onChange={selectedCatImageUpdate}
-            ref={catSelector}
             data-testid="app-cat-selector"
           >
             <option value="">-- Choose a cat to buy --</option>
@@ -262,7 +186,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
               .filter((catData) => !orders.find((orderData) => catData.id === orderData.catInfo.id))
               .map((catData) => {
                 return (
-                  <option value={catData.id} key={catData.id}>
+                  <option value={catData.id} key={catData.id} data-testid="app-cat-option">
                     {catData.name}
                   </option>
                 );
@@ -274,25 +198,21 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
           <label>
             Yes
             <input
+              {...register('notificationConfirmation')}
               type="radio"
               title="agree to receive news"
-              name="notificationConfirmation"
-              value={'yes'}
-              onClick={() => formDataSave()}
-              ref={agreeNewsRadio}
+              value={FormUserAnswersEnum.positive}
               data-testid="app-notification-agree-radio"
             />
           </label>
           <label>
             No
             <input
+              {...register('notificationConfirmation')}
               type="radio"
               title="disagree to receive news"
-              name="notificationConfirmation"
               defaultChecked={true}
-              value={'no'}
-              onClick={() => formDataSave()}
-              ref={disagreeNewsRadio}
+              value={FormUserAnswersEnum.negative}
               data-testid="app-notification-disagree-radio"
             />
           </label>
@@ -300,31 +220,30 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label className="delivery-label">
           Need delivery:
           <input
+            {...register('isDeliveryNeeded')}
             type="checkbox"
             title="I need delivery"
-            name="isDeliveryNeeded"
-            onClick={() => formDataSave()}
-            ref={deliveryCheckbox}
             data-testid="app-delivery-checkbox"
           />
         </label>
         <label
           className={
-            isProfileImageLoaded
-              ? 'profile-image-label file-input-with-file'
-              : 'profile-image-label'
+            profileImageLoaded ? 'profile-image-label file-input-with-file' : 'profile-image-label'
           }
           htmlFor="profile-image-file-input"
         >
-          {isProfileImageLoaded ? 'profile image added ' : 'upload a profile image '}👦
+          {profileImageLoaded ? 'profile image added ' : 'upload a profile image '}👦
           <input
+            {...register('profileImage', {
+              validate: {
+                validate: () => validateProfileImage(),
+              },
+            })}
             id="profile-image-file-input"
             type="file"
-            name="profile-image"
             accept="image/png, image/jpeg"
             onChange={profileImageLoadHandler}
             multiple={false}
-            ref={profileImageFileInput}
             data-testid="app-profile-file-input"
           />
         </label>
