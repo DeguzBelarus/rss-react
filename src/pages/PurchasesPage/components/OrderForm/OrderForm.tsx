@@ -111,7 +111,12 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
   const orderSubmit: SubmitHandler<IFormInputs> = (data) => {
     formMessagesClearing();
     const { name, date, catSelector, isDeliveryNeeded, notificationConfirmation } = data;
-    if (!Object.keys(errors).length) {
+    if (
+      validateName(name) &&
+      validateDate(date) &&
+      validateCatSelector(catSelector) &&
+      validateProfileImage()
+    ) {
       const orderData: IOrderObject = {
         id: orders.length + 1,
         catInfo: catsData.find((catData) => catData.id === Number(catSelector)) as ICatObject,
@@ -145,11 +150,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label>
           Buyer&apos;s name and last name:
           <input
-            {...register('name', {
-              validate: {
-                validate: (value) => validateName(value),
-              },
-            })}
+            {...register('name')}
             type="text"
             placeholder="Enter name and last name..."
             autoComplete="false"
@@ -159,11 +160,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label htmlFor="date-input">
           Order date:
           <input
-            {...register('date', {
-              validate: {
-                validate: (value) => validateDate(value),
-              },
-            })}
+            {...register('date')}
             id="date-input"
             type="date"
             title="Specify the date of purchase"
@@ -173,11 +170,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label>
           Selected cat:
           <select
-            {...register('catSelector', {
-              validate: {
-                validate: (value) => validateCatSelector(value),
-              },
-            })}
+            {...register('catSelector')}
             title="Select a cat to buy"
             data-testid="app-cat-selector"
           >
@@ -234,11 +227,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         >
           {profileImageLoaded ? 'profile image added ' : 'upload a profile image '}👦
           <input
-            {...register('profileImage', {
-              validate: {
-                validate: () => validateProfileImage(),
-              },
-            })}
+            {...register('profileImage')}
             id="profile-image-file-input"
             type="file"
             accept="image/png, image/jpeg"
