@@ -14,13 +14,7 @@ interface Props {
 }
 
 export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm<IFormInputs>();
+  const { register, handleSubmit, watch, reset } = useForm<IFormInputs>();
 
   const catSelectorValue = watch().catSelector;
   const [selectedCatImageSrc, setSelectedCatImageSrc] = useState<Nullable<string>>(null);

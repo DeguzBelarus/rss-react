@@ -6,9 +6,10 @@
   @include flex-line-spacebetween-vertical-center;
   position: relative;
   border: 1px solid #222;
+  border-radius: 2px;
+  box-shadow: 0 0 5px grey;
   background-color: #fff;
   padding: 5px;
-  border-radius: 2px;
 
   form {
     width: 40%;
@@ -80,5 +81,6 @@
     width: 300px;
     margin-bottom: auto;
     aspect-ratio: 16/9;
+    box-shadow: 0 0 5px grey;
   }
 }
