@@ -20,9 +20,13 @@ export const Header: FC<Props> = ({ origin, filterKey, filterKeyUpdateData }) =>
   const searchModeDeactivator = () => {
     setIsSearchMode(false);
   };
+
+  const searchPropsAvailabilityCheck = (): boolean => {
+    return filterKeyUpdateData !== undefined && filterKey !== undefined ? true : false;
+  };
   return (
-    <header className={isSearchMode ? 'search-mode-header' : 'header'} data-testid="app-header">
-      {origin === 'main-page' && filterKeyUpdateData !== undefined && filterKey !== undefined ? (
+    <header className={isSearchMode ? 'search-mode-header' : undefined} data-testid="app-header">
+      {origin === 'main-page' && searchPropsAvailabilityCheck() ? (
         <div className="filter-input-container">
           <input
             type="text"
