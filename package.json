@@ -26,15 +26,6 @@
     "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "eject": "react-scripts eject"
   },
-  "prettier": {
-    "endOfLine": "auto",
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "printWidth": 100,
-    "arrowParens": "always"
-  },
   "eslintConfig": {
     "extends": [
       "react-app",
