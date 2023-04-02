@@ -17,13 +17,13 @@ export const MainPage: FC = () => {
   };
 
   const filterKeyUpdateData = (key: string) => {
-    setFilterKey(key);
+    setFilterKey(key.replace(/^\s\s*/, ''));
     localStorage.setItem('rss-save', JSON.stringify(key));
   };
 
   useEffect(() => {
     setFilteredCatsData(
-      filterKey
+      filterKey && filterKey.replace(/^\s\s*/, '').length
         ? catsData.filter((catData) =>
             catData.name.toUpperCase().startsWith(filterKey.toUpperCase())
           )
