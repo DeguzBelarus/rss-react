@@ -3,22 +3,40 @@
 .main-page-wrapper {
   width: 100%;
   height: calc(100vh - #{($header-height + px)});
-  @include flex-line-center-vertical-top;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 20px;
-  overflow-y: scroll;
+  position: relative;
 
-  &::-webkit-scrollbar {
-    width: 10px;
+  &:not(.empty) {
+    @include flex-line-center-vertical-top;
   }
 
-  &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  &.empty {
+    @include flex-all-center;
   }
 
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  .cats-container {
+    width: 100%;
+    height: 100%;
+    @include flex-line-center-vertical-top;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .no-cats-span {
+    color: #444;
   }
 }

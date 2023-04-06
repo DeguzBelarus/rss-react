@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { App } from 'components/App';
 
-const filteredCatCardsCount = 5;
+const filteredCatCardsCount = 50;
 const renderApplication = (): void => {
   render(
     <BrowserRouter>

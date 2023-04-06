@@ -1,14 +1,23 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 
 import { Header } from 'components/Header/Header';
-import { ICatObject } from 'types/types';
-import { catsData } from 'catsData';
+import { ICardCatObject, Nullable } from 'types/types';
 import { CatItem } from './components/CatItem/CatItem';
+import { fetchData } from 'utils/utils';
+import { Loader } from 'components/Loader/Loader';
+import { CatModal } from './components/CatModal/CatModal';
+import { CAT_DATA_BASE_URL } from 'constants/constants';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {
   const [filterKey, setFilterKey] = useState('');
-  const [filteredCatsData, setFilteredCatsData] = useState<Array<ICatObject>>([]);
+  const [isFetching, setIsFetching] = useState(false);
+  const [isCurrentCatFetching, setIsCurrentCatFetching] = useState(false);
+  const [isLocalStorageDataLoaded, setIsLocalStorageDataLoaded] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
+  const [currentCatId, setCurrentCatId] = useState<Nullable<number>>(null);
+  const [catsData, setCatsData] = useState<Array<ICardCatObject>>([]);
+  const [currentCatData, setCurrentCatData] = useState<Nullable<ICardCatObject>>(null);
 
   const filterKeyLoadData = () => {
     if (localStorage.getItem('rss-save')) {
@@ -21,41 +30,61 @@ export const MainPage: FC = () => {
     localStorage.setItem('rss-save', JSON.stringify(key));
   };
 
-  useEffect(() => {
-    setFilteredCatsData(
-      filterKey && filterKey.replace(/^\s\s*/, '').length
-        ? catsData.filter((catData) =>
-            catData.name.toUpperCase().startsWith(filterKey.toUpperCase())
-          )
-        : catsData
-    );
+  const getCatsData = useCallback(async () => {
+    const params = new URLSearchParams();
+    params.append('q', filterKey);
+    setIsFetching(true);
+    const response = await fetchData(`${CAT_DATA_BASE_URL}?${params}`);
+    const catsData: Array<ICardCatObject> = await response.json();
+    setCatsData(catsData);
+    setIsFetching(false);
   }, [filterKey]);
 
   useEffect(() => {
-    filterKeyLoadData();
-    setFilteredCatsData(catsData);
-  }, []);
+    if (!isLocalStorageDataLoaded) {
+      filterKeyLoadData();
+      setIsLocalStorageDataLoaded(true);
+    } else {
+      if (!isFetched) {
+        getCatsData();
+        setIsFetched(true);
+      }
+    }
+  }, [isLocalStorageDataLoaded, getCatsData, isFetched]);
   return (
     <>
-      <Header origin="main-page" filterKeyUpdateData={filterKeyUpdateData} filterKey={filterKey} />
-      <div className="main-page-wrapper" data-testid="app-main-page">
-        {filteredCatsData.length ? (
-          filteredCatsData.map((catData) => {
-            return (
-              <CatItem
-                breed={catData.breed}
-                city={catData.city}
-                id={catData.id}
-                imageSrc={catData.imageSrc}
-                name={catData.name}
-                price={catData.price}
-                key={catData.id}
-              />
-            );
-          })
+      <Header
+        origin="main-page"
+        filterKeyUpdateData={filterKeyUpdateData}
+        filterKey={filterKey}
+        getCatsData={getCatsData}
+        currentCatId={currentCatId}
+      />
+      <div
+        className={catsData.length && !isFetching ? 'main-page-wrapper' : 'main-page-wrapper empty'}
+        data-testid="app-main-page"
+      >
+        {isFetching ? (
+          <Loader origin="main-page" />
+        ) : catsData.length ? (
+          <div className="cats-container">
+            {catsData.map((catData) => {
+              return <CatItem {...catData} setCurrentCatId={setCurrentCatId} key={catData.id} />;
+            })}
+          </div>
         ) : (
-          <span>{'There are no cats here ;('}</span>
+          <h3 className="no-cats-span">{'There are no cats here ;('}</h3>
         )}
+        {currentCatId ? (
+          <CatModal
+            currentCatId={currentCatId}
+            isCurrentCatFetching={isCurrentCatFetching}
+            setIsCurrentCatFetching={setIsCurrentCatFetching}
+            currentCatData={currentCatData}
+            setCurrentCatData={setCurrentCatData}
+            setCurrentCatId={setCurrentCatId}
+          />
+        ) : null}
       </div>
     </>
   );

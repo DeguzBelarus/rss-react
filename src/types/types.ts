@@ -1,6 +1,7 @@
 import { FormUserAnswersEnum } from 'constants/constants';
 
 // types
+export type LoaderOriginType = 'main-page' | 'cat-modal';
 export type Nullable<T> = T | null;
 export type Undefinable<T> = T | undefined;
 export type HeaderOriginType = 'main-page' | 'about-page' | 'purchases-page';
@@ -14,6 +15,23 @@ export interface ICatObject {
   imageSrc: string;
   city: string;
   price: number;
+}
+
+export interface ICardCatObject {
+  id: number;
+  age: number;
+  breed: string;
+  catterys: string;
+  color?: number[];
+  colorOption?: string;
+  counts?: number;
+  description?: string;
+  discont: number;
+  image: string;
+  name: string;
+  price: number;
+  raiting?: number;
+  sex: number;
 }
 
 export interface IBuyerInfoObject {

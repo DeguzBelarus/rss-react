@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 
 import { App } from 'components/App';
 
-const maxCatCards = 16;
+const maxCatCards = 50;
 const renderApplication = (): void => {
   render(
     <BrowserRouter>
