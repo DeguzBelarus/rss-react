@@ -46,6 +46,7 @@ export const Header: FC<Props> = ({
             type="text"
             className="filter-input"
             placeholder="Enter a search key..."
+            autoComplete="false"
             value={filterKey}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               filterKeyUpdateData?.(event.target.value || '')
