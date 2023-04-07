@@ -35,7 +35,10 @@ describe('fetch data tests', (): void => {
       })
     );
 
-    const cardsResponse = await fetchData(`${CAT_DATA_BASE_URL}?q=`);
+    const params = new URLSearchParams();
+    params.append('q', '');
+
+    const cardsResponse = await fetchData(`${CAT_DATA_BASE_URL}?${params}`);
     const cards = await cardsResponse.json();
     expect(cards).toBe(cardsDataMock);
   });
@@ -47,8 +50,11 @@ describe('fetch data tests', (): void => {
       })
     );
 
-    const cardsResponse = await fetchData(`${CAT_DATA_BASE_URL}?id=1`);
-    const cards = await cardsResponse.json();
+    const params = new URLSearchParams();
+    params.append('id', '1');
+
+    const cardResponse = await fetchData(`${CAT_DATA_BASE_URL}?${params}`);
+    const cards = await cardResponse.json();
     expect(cards[0]).toBe(cardDataMock[0]);
   });
 });
