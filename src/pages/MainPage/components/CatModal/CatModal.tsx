@@ -59,7 +59,11 @@ export const CatModal: FC<Props> = ({
               </div>
               <div className="basic-info-container">
                 <span>{`возраст, месяцев: ${currentCatData.age}`}</span>
-                {currentCatData.sex ? <span>{'пол: '}&#9794;</span> : <span>{'пол: '}&#9792;</span>}
+                {!currentCatData.sex ? (
+                  <span>{'пол: '}&#9794;</span>
+                ) : (
+                  <span>{'пол: '}&#9792;</span>
+                )}
                 <span>{`порода: ${currentCatData.breed}`}</span>
                 <span>{`питомник: ${currentCatData.catterys}`}</span>
                 <span>{`цвет: ${currentCatData.color}`}</span>

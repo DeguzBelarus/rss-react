@@ -30,7 +30,7 @@ export const CatItem: FC<Props> = ({
       <div className="cat-info-container">
         <span>{breed}</span>
         <span className="price-span">{`${price} RUB`}</span>
-        {sex ? <span>&#9794;</span> : <span>&#9792;</span>}
+        {!sex ? <span>&#9794;</span> : <span>&#9792;</span>}
       </div>
     </div>
   );
