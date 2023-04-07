@@ -73,7 +73,7 @@ export const MainPage: FC = () => {
             })}
           </div>
         ) : (
-          <h3 className="no-cats-span">{'There are no cats here ;('}</h3>
+          <h3 className="no-cats-span">{'Кошек не найдено ;('}</h3>
         )}
         {currentCatId ? (
           <CatModal

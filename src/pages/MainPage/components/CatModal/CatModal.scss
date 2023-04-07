@@ -13,7 +13,7 @@
 
   .cat-data-container {
     width: 750px;
-    height: 460px;
+    height: 450px;
     position: relative;
     padding: 15px 10px;
     background-color: #fff;
@@ -59,6 +59,11 @@
         span {
           font-weight: bold;
           font-size: 17px;
+
+          &.old-price {
+            color: #777;
+            text-decoration: line-through;
+          }
         }
       }
     }

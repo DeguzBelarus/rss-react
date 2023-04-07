@@ -58,17 +58,21 @@ export const CatModal: FC<Props> = ({
                 />
               </div>
               <div className="basic-info-container">
-                <span>{`возраст: ${currentCatData.age}`}</span>
+                <span>{`возраст, месяцев: ${currentCatData.age}`}</span>
                 {currentCatData.sex ? <span>{'пол: '}&#9794;</span> : <span>{'пол: '}&#9792;</span>}
                 <span>{`порода: ${currentCatData.breed}`}</span>
                 <span>{`питомник: ${currentCatData.catterys}`}</span>
                 <span>{`цвет: ${currentCatData.color}`}</span>
-                <span>{`окрас: ${currentCatData.colorOption}`}</span>
+                {currentCatData.colorOption ? (
+                  <span>{`окрас: ${currentCatData.colorOption}`}</span>
+                ) : null}
                 <span>{`рейтинг: ${currentCatData.raiting}`}</span>
                 <span>{`посетителей: ${currentCatData.counts}`}</span>
-                <span>{`цена: ${currentCatData.price} RUB`}</span>
+                <span
+                  className={currentCatData.discont ? 'old-price' : undefined}
+                >{`цена: ${currentCatData.price} RUB`}</span>
                 {currentCatData.discont ? (
-                  <span>{`скидка: ${currentCatData.discont} RUB`}</span>
+                  <span>{`со скидкой: ${currentCatData.discont} RUB`}</span>
                 ) : null}
               </div>
             </div>
