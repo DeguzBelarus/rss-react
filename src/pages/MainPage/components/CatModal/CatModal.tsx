@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import { fetchData } from 'utils/utils';
 import { ICardCatObject, Nullable } from 'types/types';
@@ -23,6 +23,8 @@ export const CatModal: FC<Props> = ({
   setCurrentCatData,
   setCurrentCatId,
 }) => {
+  const catModalWrapper = useRef<Nullable<HTMLDivElement>>(null);
+
   const getOneCatData = useCallback(async () => {
     const params = new URLSearchParams();
     params.append('id', String(currentCatId));
@@ -38,11 +40,22 @@ export const CatModal: FC<Props> = ({
     setCurrentCatData(null);
   };
 
+  const closeCatModalByGreyArea = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === catModalWrapper.current) {
+      setCurrentCatId(null);
+      setCurrentCatData(null);
+    }
+  };
+
   useEffect(() => {
     getOneCatData();
   }, [getOneCatData]);
   return (
-    <div className="cat-modal-wrapper">
+    <div
+      className="cat-modal-wrapper"
+      onClick={(event) => closeCatModalByGreyArea(event)}
+      ref={catModalWrapper}
+    >
       <div className={isCurrentCatFetching ? 'cat-data-container empty' : 'cat-data-container'}>
         {isCurrentCatFetching ? (
           <Loader origin="cat-modal" />
