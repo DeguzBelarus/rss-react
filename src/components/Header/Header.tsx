@@ -56,7 +56,12 @@ export const Header: FC<Props> = ({
             onKeyDown={(event) => searchOnEnterHandler(event)}
             data-testid="app-filter-input"
           />
-          <button type="button" className="search-button" onClick={getCatsData}>
+          <button
+            type="button"
+            className="search-button"
+            onClick={getCatsData}
+            data-testid="app-search-button"
+          >
             &#128269;
           </button>
         </div>
