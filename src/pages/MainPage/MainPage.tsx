@@ -10,7 +10,7 @@ import { CAT_DATA_BASE_URL } from 'constants/constants';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {
-  const [filterKey, setFilterKey] = useState('');
+  const [searchKey, setsearchKey] = useState('');
   const [isFetching, setIsFetching] = useState(false);
   const [isCurrentCatFetching, setIsCurrentCatFetching] = useState(false);
   const [isLocalStorageDataLoaded, setIsLocalStorageDataLoaded] = useState(false);
@@ -19,30 +19,30 @@ export const MainPage: FC = () => {
   const [catsData, setCatsData] = useState<Array<ICardCatObject>>([]);
   const [currentCatData, setCurrentCatData] = useState<Nullable<ICardCatObject>>(null);
 
-  const filterKeyLoadData = () => {
+  const searchKeyLoadData = () => {
     if (localStorage.getItem('rss-save')) {
-      setFilterKey(JSON.parse(localStorage.getItem('rss-save') || ''));
+      setsearchKey(JSON.parse(localStorage.getItem('rss-save') || ''));
     }
   };
 
-  const filterKeyUpdateData = (key: string) => {
-    setFilterKey(key.replace(/^\s\s*/, ''));
+  const searchKeyUpdateData = (key: string) => {
+    setsearchKey(key.replace(/^\s\s*/, ''));
     localStorage.setItem('rss-save', JSON.stringify(key));
   };
 
   const getCatsData = useCallback(async () => {
     const params = new URLSearchParams();
-    params.append('q', filterKey);
+    params.append('q', searchKey);
     setIsFetching(true);
     const response = await fetchData(`${CAT_DATA_BASE_URL}?${params}`);
     const catsData: Array<ICardCatObject> = await response.json();
     setCatsData(catsData);
     setIsFetching(false);
-  }, [filterKey]);
+  }, [searchKey]);
 
   useEffect(() => {
     if (!isLocalStorageDataLoaded) {
-      filterKeyLoadData();
+      searchKeyLoadData();
       setIsLocalStorageDataLoaded(true);
     } else {
       if (!isFetched) {
@@ -55,8 +55,8 @@ export const MainPage: FC = () => {
     <>
       <Header
         origin="main-page"
-        filterKeyUpdateData={filterKeyUpdateData}
-        filterKey={filterKey}
+        searchKeyUpdateData={searchKeyUpdateData}
+        searchKey={searchKey}
         getCatsData={getCatsData}
         currentCatId={currentCatId}
       />

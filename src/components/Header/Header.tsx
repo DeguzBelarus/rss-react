@@ -6,16 +6,16 @@ import './Header.scss';
 
 interface Props {
   origin: HeaderOriginType;
-  filterKeyUpdateData?: (key: string) => void;
-  filterKey?: string;
+  searchKeyUpdateData?: (key: string) => void;
+  searchKey?: string;
   getCatsData?: () => void;
   currentCatId?: Nullable<number>;
 }
 
 export const Header: FC<Props> = ({
   origin,
-  filterKey,
-  filterKeyUpdateData,
+  searchKey,
+  searchKeyUpdateData,
   getCatsData,
   currentCatId,
 }) => {
@@ -36,7 +36,7 @@ export const Header: FC<Props> = ({
   };
 
   const searchPropsAvailabilityCheck = (): boolean => {
-    return filterKeyUpdateData !== undefined && filterKey !== undefined ? true : false;
+    return searchKeyUpdateData !== undefined && searchKey !== undefined ? true : false;
   };
   return (
     <header className={isSearchMode ? 'search-mode-header' : undefined} data-testid="app-header">
@@ -47,9 +47,9 @@ export const Header: FC<Props> = ({
             className="filter-input"
             placeholder="Enter a search key..."
             autoComplete="false"
-            value={filterKey}
+            value={searchKey}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              filterKeyUpdateData?.(event.target.value || '')
+              searchKeyUpdateData?.(event.target.value || '')
             }
             onFocus={searchModeActivator}
             onBlur={searchModeDeactivator}
