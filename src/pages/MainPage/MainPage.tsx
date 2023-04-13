@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
 import { Header } from 'components/Header/Header';
@@ -11,6 +11,8 @@ import {
   getSearchKey,
   getCatsData,
   getCurrentCatId,
+  getIsFirstLoad,
+  setIsFirstLoad,
 } from 'redux/mainSlice';
 import './MainPage.scss';
 
@@ -21,13 +23,12 @@ export const MainPage: FC = () => {
   const searchKey = useAppSelector(getSearchKey);
   const catsData = useAppSelector(getCatsData);
   const currentCatId = useAppSelector(getCurrentCatId);
-
-  const [isFirstLoad, setIsFirstLoad] = useState(false);
+  const isFirstLoad = useAppSelector(getIsFirstLoad);
 
   useEffect(() => {
     if (!isFirstLoad) {
       dispatch(getCatsDataAsync(searchKey));
-      setIsFirstLoad(true);
+      dispatch(setIsFirstLoad(true));
     }
   }, [dispatch, isFirstLoad, searchKey]);
   return (
