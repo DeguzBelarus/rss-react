@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { App } from 'components/App';
 
-const singleCard = 1;
 const renderApplication = (): void => {
   render(
     <BrowserRouter>
