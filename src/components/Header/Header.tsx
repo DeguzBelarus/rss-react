@@ -40,6 +40,7 @@ export const Header: FC<Props> = ({ origin, currentCatId }) => {
             className="filter-input"
             placeholder="Enter a search key..."
             autoComplete="false"
+            spellCheck={false}
             value={searchKey}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               dispatch(setSearchKey(event.target.value))
