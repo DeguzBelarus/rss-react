@@ -10,7 +10,7 @@ import { CAT_DATA_BASE_URL } from 'constants/constants';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {
-  const [searchKey, setsearchKey] = useState('');
+  const [searchKey, setSearchKey] = useState('');
   const [isFetching, setIsFetching] = useState(false);
   const [isCurrentCatFetching, setIsCurrentCatFetching] = useState(false);
   const [isLocalStorageDataLoaded, setIsLocalStorageDataLoaded] = useState(false);
@@ -21,12 +21,12 @@ export const MainPage: FC = () => {
 
   const searchKeyLoadData = () => {
     if (localStorage.getItem('rss-save')) {
-      setsearchKey(JSON.parse(localStorage.getItem('rss-save') || ''));
+      setSearchKey(JSON.parse(localStorage.getItem('rss-save') || ''));
     }
   };
 
   const searchKeyUpdateData = (key: string) => {
-    setsearchKey(key.replace(/^\s\s*/, ''));
+    setSearchKey(key.replace(/^\s\s*/, ''));
     localStorage.setItem('rss-save', JSON.stringify(key));
   };
 
