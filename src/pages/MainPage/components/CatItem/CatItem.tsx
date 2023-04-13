@@ -1,26 +1,17 @@
 import React, { FC } from 'react';
+import { useAppDispatch } from 'redux/hooks';
 
-import { ICardCatObject, Nullable } from 'types/types';
+import { setCurrentCatId } from 'redux/mainSlice';
+import { ICardCatObject } from 'types/types';
 import { SERVER_STATIC_URL } from 'constants/constants';
 import './CatItem.scss';
 
-interface Props extends ICardCatObject {
-  setCurrentCatId: React.Dispatch<React.SetStateAction<Nullable<number>>>;
-}
-
-export const CatItem: FC<Props> = ({
-  breed,
-  name,
-  image: imageSrc,
-  price,
-  sex,
-  id,
-  setCurrentCatId,
-}) => {
+export const CatItem: FC<ICardCatObject> = ({ breed, name, image: imageSrc, price, sex, id }) => {
+  const dispatch = useAppDispatch();
   return (
     <div
       className="cat-item-wrapper"
-      onClick={() => setCurrentCatId(id)}
+      onClick={() => dispatch(setCurrentCatId(id))}
       data-testid="app-cat-item"
     >
       <p className="cat-name-paragraph">{name}</p>

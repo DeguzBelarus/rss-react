@@ -1,90 +1,58 @@
-import React, { FC, useState, useEffect, useCallback } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 
 import { Header } from 'components/Header/Header';
-import { ICardCatObject, Nullable } from 'types/types';
 import { CatItem } from './components/CatItem/CatItem';
-import { fetchData } from 'utils/utils';
 import { Loader } from 'components/Loader/Loader';
 import { CatModal } from './components/CatModal/CatModal';
-import { CAT_DATA_BASE_URL } from 'constants/constants';
+import {
+  getRequestStatus,
+  getCatsDataAsync,
+  getSearchKey,
+  getCatsData,
+  getCurrentCatId,
+} from 'redux/mainSlice';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {
-  const [searchKey, setSearchKey] = useState('');
-  const [isFetching, setIsFetching] = useState(false);
-  const [isCurrentCatFetching, setIsCurrentCatFetching] = useState(false);
-  const [isLocalStorageDataLoaded, setIsLocalStorageDataLoaded] = useState(false);
-  const [isFetched, setIsFetched] = useState(false);
-  const [currentCatId, setCurrentCatId] = useState<Nullable<number>>(null);
-  const [catsData, setCatsData] = useState<Array<ICardCatObject>>([]);
-  const [currentCatData, setCurrentCatData] = useState<Nullable<ICardCatObject>>(null);
+  const dispatch = useAppDispatch();
 
-  const searchKeyLoadData = () => {
-    if (localStorage.getItem('rss-save')) {
-      setSearchKey(JSON.parse(localStorage.getItem('rss-save') || ''));
-    }
-  };
+  const requestStatus = useAppSelector(getRequestStatus);
+  const searchKey = useAppSelector(getSearchKey);
+  const catsData = useAppSelector(getCatsData);
+  const currentCatId = useAppSelector(getCurrentCatId);
 
-  const searchKeyUpdateData = (key: string) => {
-    setSearchKey(key.replace(/^\s\s*/, ''));
-    localStorage.setItem('rss-save', JSON.stringify(key));
-  };
-
-  const getCatsData = useCallback(async () => {
-    const params = new URLSearchParams();
-    params.append('q', searchKey);
-    setIsFetching(true);
-    const response = await fetchData(`${CAT_DATA_BASE_URL}?${params}`);
-    const catsData: Array<ICardCatObject> = await response.json();
-    setCatsData(catsData);
-    setIsFetching(false);
-  }, [searchKey]);
+  const [isFirstLoad, setIsFirstLoad] = useState(false);
 
   useEffect(() => {
-    if (!isLocalStorageDataLoaded) {
-      searchKeyLoadData();
-      setIsLocalStorageDataLoaded(true);
-    } else {
-      if (!isFetched) {
-        getCatsData();
-        setIsFetched(true);
-      }
+    if (!isFirstLoad) {
+      dispatch(getCatsDataAsync(searchKey));
+      setIsFirstLoad(true);
     }
-  }, [isLocalStorageDataLoaded, getCatsData, isFetched]);
+  }, [dispatch, isFirstLoad, searchKey]);
   return (
     <>
-      <Header
-        origin="main-page"
-        searchKeyUpdateData={searchKeyUpdateData}
-        searchKey={searchKey}
-        getCatsData={getCatsData}
-        currentCatId={currentCatId}
-      />
+      <Header origin="main-page" currentCatId={currentCatId} />
       <div
-        className={catsData.length && !isFetching ? 'main-page-wrapper' : 'main-page-wrapper empty'}
+        className={
+          catsData.length && requestStatus !== 'loading'
+            ? 'main-page-wrapper'
+            : 'main-page-wrapper empty'
+        }
         data-testid="app-main-page"
       >
-        {isFetching ? (
+        {requestStatus === 'loading' ? (
           <Loader origin="main-page" />
         ) : catsData.length ? (
           <div className="cats-container">
             {catsData.map((catData) => {
-              return <CatItem {...catData} setCurrentCatId={setCurrentCatId} key={catData.id} />;
+              return <CatItem {...catData} key={catData.id} />;
             })}
           </div>
         ) : (
           <h3 className="no-cats-span">{'Кошек не найдено ;('}</h3>
         )}
-        {currentCatId ? (
-          <CatModal
-            currentCatId={currentCatId}
-            isCurrentCatFetching={isCurrentCatFetching}
-            setIsCurrentCatFetching={setIsCurrentCatFetching}
-            currentCatData={currentCatData}
-            setCurrentCatData={setCurrentCatData}
-            setCurrentCatId={setCurrentCatId}
-          />
-        ) : null}
+        {currentCatId ? <CatModal /> : null}
       </div>
     </>
   );

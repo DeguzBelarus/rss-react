@@ -1,24 +1,20 @@
 import React, { FC, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Link } from 'react-router-dom';
 
+import { getSearchKey, setSearchKey, getCatsDataAsync } from 'redux/mainSlice';
 import { HeaderOriginType, Nullable } from 'types/types';
 import './Header.scss';
 
 interface Props {
   origin: HeaderOriginType;
-  searchKeyUpdateData?: (key: string) => void;
-  searchKey?: string;
-  getCatsData?: () => void;
   currentCatId?: Nullable<number>;
 }
 
-export const Header: FC<Props> = ({
-  origin,
-  searchKey,
-  searchKeyUpdateData,
-  getCatsData,
-  currentCatId,
-}) => {
+export const Header: FC<Props> = ({ origin, currentCatId }) => {
+  const dispatch = useAppDispatch();
+
+  const searchKey = useAppSelector(getSearchKey);
   const [isSearchMode, setIsSearchMode] = useState(false);
 
   const searchModeActivator = () => {
@@ -30,17 +26,14 @@ export const Header: FC<Props> = ({
   };
 
   const searchOnEnterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && getCatsData) {
-      getCatsData();
+    if (event.key === 'Enter') {
+      dispatch(getCatsDataAsync(searchKey));
     }
   };
 
-  const searchPropsAvailabilityCheck = (): boolean => {
-    return searchKeyUpdateData !== undefined && searchKey !== undefined ? true : false;
-  };
   return (
     <header className={isSearchMode ? 'search-mode-header' : undefined} data-testid="app-header">
-      {origin === 'main-page' && searchPropsAvailabilityCheck() && !currentCatId ? (
+      {origin === 'main-page' && !currentCatId ? (
         <div className="filter-input-container">
           <input
             type="text"
@@ -49,7 +42,7 @@ export const Header: FC<Props> = ({
             autoComplete="false"
             value={searchKey}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              searchKeyUpdateData?.(event.target.value || '')
+              dispatch(setSearchKey(event.target.value))
             }
             onFocus={searchModeActivator}
             onBlur={searchModeDeactivator}
@@ -59,7 +52,7 @@ export const Header: FC<Props> = ({
           <button
             type="button"
             className="search-button"
-            onClick={getCatsData}
+            onClick={() => dispatch(getCatsDataAsync(searchKey))}
             data-testid="app-search-button"
           >
             &#128269;

@@ -10,8 +10,10 @@ import { fetchData } from 'utils/utils';
 const initialState: IMainState = {
   searchKey: '',
   catsData: [],
-  requestStatus: 'idle',
   currentCatData: null,
+  currentCatId: null,
+  isFirstLoad: false,
+  requestStatus: 'idle',
 };
 
 // thunks
@@ -35,14 +37,14 @@ export const getCatsDataAsync = createAsyncThunk(
 // get the specified cat data
 export const getCatDataAsync = createAsyncThunk(
   'cats/get-one',
-  async (id: string): Promise<Nullable<ICardCatObject>> => {
+  async (id: string): Promise<Nullable<Array<ICardCatObject>>> => {
     const params = new URLSearchParams();
     params.set('id', id);
 
     const getCatDataURL = `${CAT_DATA_BASE_URL}?${params}`;
     const getCatDataResponse: Undefinable<Response> = await fetchData(getCatDataURL);
     if (getCatDataResponse && getCatDataResponse.ok) {
-      const getCatDataResponseData: ICardCatObject = await getCatDataResponse.json();
+      const getCatDataResponseData: Array<ICardCatObject> = await getCatDataResponse.json();
       return getCatDataResponseData;
     }
     return null;
@@ -64,9 +66,18 @@ export const mainSlice = createSlice({
     },
     setCurrentCatData(
       state: WritableDraft<IMainState>,
-      { payload }: PayloadAction<ICardCatObject>
+      { payload }: PayloadAction<Nullable<ICardCatObject>>
     ) {
       state.currentCatData = payload;
+    },
+    setIsFirstLoad(state: WritableDraft<IMainState>, { payload }: PayloadAction<boolean>) {
+      state.isFirstLoad = payload;
+    },
+    setCurrentCatId(
+      state: WritableDraft<IMainState>,
+      { payload }: PayloadAction<Nullable<number>>
+    ) {
+      state.currentCatId = payload;
     },
   },
   extraReducers: (builder) => {
@@ -98,8 +109,8 @@ export const mainSlice = createSlice({
         state.requestStatus = 'idle';
 
         if (payload) {
-          if (payload) {
-            state.currentCatData = payload;
+          if (payload && payload[0]) {
+            state.currentCatData = payload[0];
           }
         }
       })
@@ -111,12 +122,14 @@ export const mainSlice = createSlice({
 });
 
 export const {
-  actions: { setCatsData, setSearchKey, setCurrentCatData },
+  actions: { setCatsData, setSearchKey, setCurrentCatData, setIsFirstLoad, setCurrentCatId },
 } = mainSlice;
 
 export const getSearchKey = ({ main: { searchKey } }: RootState) => searchKey;
 export const getCatsData = ({ main: { catsData } }: RootState) => catsData;
 export const getCurrentCatData = ({ main: { currentCatData } }: RootState) => currentCatData;
+export const getCurrentCatId = ({ main: { currentCatId } }: RootState) => currentCatId;
+export const getIsFirstLoad = ({ main: { isFirstLoad } }: RootState) => isFirstLoad;
 export const getRequestStatus = ({ main: { requestStatus } }: RootState) => requestStatus;
 
 export const { reducer } = mainSlice;

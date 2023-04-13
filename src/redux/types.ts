@@ -4,7 +4,9 @@ export type RequestStatusType = 'idle' | 'loading' | 'failed';
 
 export interface IMainState {
   searchKey: string;
-  requestStatus: RequestStatusType;
   catsData: Array<ICardCatObject>;
   currentCatData: Nullable<ICardCatObject>;
+  currentCatId: Nullable<number>;
+  isFirstLoad: boolean;
+  requestStatus: RequestStatusType;
 }
