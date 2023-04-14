@@ -1,7 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
+import { store } from 'redux/store';
 import { App } from 'components/App';
 const catSelectorOptionsCount = 17;
 const singleOrder = 1;
@@ -9,9 +11,11 @@ const singleOrder = 1;
 const renderPurchasesPage = (): void => {
   const purchasesRoute = '/purchases';
   render(
-    <MemoryRouter initialEntries={[purchasesRoute]}>
-      <App />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[purchasesRoute]}>
+        <App />
+      </MemoryRouter>
+    </Provider>
   );
 };
 
@@ -42,8 +46,8 @@ describe('Purchases page tests', (): void => {
       fireEvent.change(screen.getByTestId('app-profile-file-input'), {
         target: { files: [file] },
       });
-      fireEvent.click(screen.getByTestId('app-order-accept-button'));
     });
+    fireEvent.click(screen.getByTestId('app-order-accept-button'));
     expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(singleOrder);
   });
 });
