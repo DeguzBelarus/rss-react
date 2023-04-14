@@ -2,7 +2,8 @@ import React, { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Link } from 'react-router-dom';
 
-import { getSearchKey, setSearchKey, getCatsDataAsync } from 'redux/mainSlice';
+import { getSearchKey, setSearchKey } from 'redux/mainSlice';
+import { getCatsDataAsync } from 'redux/thunks';
 import { HeaderOriginType, Nullable } from 'types/types';
 import './Header.scss';
 

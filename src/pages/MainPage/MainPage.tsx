@@ -7,13 +7,13 @@ import { Loader } from 'components/Loader/Loader';
 import { CatModal } from './components/CatModal/CatModal';
 import {
   getRequestStatus,
-  getCatsDataAsync,
   getSearchKey,
   getCatsData,
   getCurrentCatId,
   getIsFirstLoad,
   setIsFirstLoad,
 } from 'redux/mainSlice';
+import { getCatsDataAsync } from 'redux/thunks';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {

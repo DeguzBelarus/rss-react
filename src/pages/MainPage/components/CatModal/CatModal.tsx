@@ -2,13 +2,13 @@ import React, { FC, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import {
-  getCatDataAsync,
   getRequestStatus,
   setCurrentCatData,
   getCurrentCatData,
   getCurrentCatId,
   setCurrentCatId,
 } from 'redux/mainSlice';
+import { getCatDataAsync } from 'redux/thunks';
 import { Nullable } from 'types/types';
 import { Loader } from 'components/Loader/Loader';
 import { SERVER_STATIC_URL } from 'constants/constants';

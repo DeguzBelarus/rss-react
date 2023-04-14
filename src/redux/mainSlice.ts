@@ -1,55 +1,20 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { WritableDraft } from 'immer/dist/internal';
 
 import { IMainState } from './types';
-import { ICardCatObject, Nullable, Undefinable } from 'types/types';
-import { CAT_DATA_BASE_URL } from 'constants/constants';
-import { fetchData } from 'utils/utils';
+import { ICardCatObject, IOrderObject, Nullable } from 'types/types';
+import { getCatDataAsync, getCatsDataAsync } from './thunks';
 
 const initialState: IMainState = {
   searchKey: '',
   catsData: [],
+  orders: [],
   currentCatData: null,
   currentCatId: null,
   isFirstLoad: false,
   requestStatus: 'idle',
 };
-
-// thunks
-// get cats data
-export const getCatsDataAsync = createAsyncThunk(
-  'cats/get-all',
-  async (searchKey: string): Promise<Nullable<Array<ICardCatObject>>> => {
-    const params = new URLSearchParams();
-    params.set('q', searchKey);
-
-    const getCatsDataURL = `${CAT_DATA_BASE_URL}?${params}`;
-    const getCatsDataResponse: Undefinable<Response> = await fetchData(getCatsDataURL);
-    if (getCatsDataResponse && getCatsDataResponse.ok) {
-      const getCatsDataResponseData: Array<ICardCatObject> = await getCatsDataResponse.json();
-      return getCatsDataResponseData;
-    }
-    return null;
-  }
-);
-
-// get the specified cat data
-export const getCatDataAsync = createAsyncThunk(
-  'cats/get-one',
-  async (id: string): Promise<Nullable<Array<ICardCatObject>>> => {
-    const params = new URLSearchParams();
-    params.set('id', id);
-
-    const getCatDataURL = `${CAT_DATA_BASE_URL}?${params}`;
-    const getCatDataResponse: Undefinable<Response> = await fetchData(getCatDataURL);
-    if (getCatDataResponse && getCatDataResponse.ok) {
-      const getCatDataResponseData: Array<ICardCatObject> = await getCatDataResponse.json();
-      return getCatDataResponseData;
-    }
-    return null;
-  }
-);
 
 export const mainSlice = createSlice({
   name: 'main',
@@ -78,6 +43,9 @@ export const mainSlice = createSlice({
       { payload }: PayloadAction<Nullable<number>>
     ) {
       state.currentCatId = payload;
+    },
+    setOrders(state: WritableDraft<IMainState>, { payload }: PayloadAction<Array<IOrderObject>>) {
+      state.orders = payload;
     },
   },
   extraReducers: (builder) => {
@@ -122,11 +90,19 @@ export const mainSlice = createSlice({
 });
 
 export const {
-  actions: { setCatsData, setSearchKey, setCurrentCatData, setIsFirstLoad, setCurrentCatId },
+  actions: {
+    setCatsData,
+    setSearchKey,
+    setCurrentCatData,
+    setIsFirstLoad,
+    setCurrentCatId,
+    setOrders,
+  },
 } = mainSlice;
 
 export const getSearchKey = ({ main: { searchKey } }: RootState) => searchKey;
 export const getCatsData = ({ main: { catsData } }: RootState) => catsData;
+export const getOrders = ({ main: { orders } }: RootState) => orders;
 export const getCurrentCatData = ({ main: { currentCatData } }: RootState) => currentCatData;
 export const getCurrentCatId = ({ main: { currentCatId } }: RootState) => currentCatId;
 export const getIsFirstLoad = ({ main: { isFirstLoad } }: RootState) => isFirstLoad;
