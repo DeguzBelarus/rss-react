@@ -1,14 +1,18 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { store } from 'redux/store';
 import { App } from 'components/App';
 
 const renderApplication = (): void => {
   render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   );
 };
 
