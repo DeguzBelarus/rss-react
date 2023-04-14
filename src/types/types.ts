@@ -8,6 +8,11 @@ export type HeaderOriginType = 'main-page' | 'about-page' | 'purchases-page';
 export type FormMessageType = 'success' | 'error';
 
 // interfaces
+export interface IFormMessage {
+  messageText: string;
+  messageType: FormMessageType;
+}
+
 export interface ICatObject {
   id: number;
   name: string;

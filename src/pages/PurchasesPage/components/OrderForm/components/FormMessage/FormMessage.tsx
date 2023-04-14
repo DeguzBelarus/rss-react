@@ -1,18 +1,19 @@
 import React, { FC } from 'react';
-import { FormMessageType } from 'types/types';
+import { useAppSelector } from 'redux/hooks';
 
+import { getFormMessage } from 'redux/mainSlice';
 import './FormMessage.scss';
 
-interface Props {
-  message: string;
-  messageType: FormMessageType;
-}
-
-export const FormMessage: FC<Props> = ({ message, messageType }) => {
+export const FormMessage: FC = () => {
+  const formMessage = useAppSelector(getFormMessage);
   return (
     <div className="form-message-wrapper">
-      <span className={messageType === 'success' ? 'message-span' : 'message-span error-message'}>
-        {message}
+      <span
+        className={
+          formMessage.messageType === 'success' ? 'message-span' : 'message-span error-message'
+        }
+      >
+        {formMessage.messageText}
       </span>
     </div>
   );

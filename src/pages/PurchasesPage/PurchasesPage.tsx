@@ -1,28 +1,25 @@
 import React, { FC, useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import { Header } from 'components/Header/Header';
 import { OrderItem } from './components/OrderItem/OrderItem';
 import { IOrderObject } from 'types/types';
 import { OrderForm } from './components/OrderForm/OrderForm';
+import { getOrders, setOrders } from 'redux/mainSlice';
 import './PurchasesPage.scss';
 
 export const PurchasesPage: FC = () => {
-  const [orders, setOrders] = useState<Array<IOrderObject>>([]);
+  const dispatch = useAppDispatch();
+
+  const orders = useAppSelector(getOrders);
   const [isOrdersLoaded, setIsOrdersLoaded] = useState(false);
 
   const orderAdd = (order: IOrderObject) => {
-    setOrders([...orders, order]);
+    dispatch(setOrders([...orders, order]));
   };
 
   const orderRemove = (id: number) => {
-    setOrders(orders.filter((order) => order.id !== id));
-  };
-
-  const ordersLoadData = () => {
-    if (localStorage.getItem('rss-save-orders')) {
-      setOrders(JSON.parse(localStorage.getItem('rss-save-orders') || ''));
-    }
-    setIsOrdersLoaded(true);
+    dispatch(setOrders(orders.filter((order) => order.id !== id)));
   };
 
   useEffect(() => {
@@ -32,8 +29,11 @@ export const PurchasesPage: FC = () => {
   }, [orders, isOrdersLoaded]);
 
   useEffect(() => {
-    ordersLoadData();
-  }, []);
+    if (localStorage.getItem('rss-save-orders')) {
+      dispatch(setOrders(JSON.parse(localStorage.getItem('rss-save-orders') || '')));
+    }
+    setIsOrdersLoaded(true);
+  }, [dispatch]);
   return (
     <>
       <Header origin="purchases-page" />

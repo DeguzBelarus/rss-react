@@ -3,8 +3,9 @@ import { RootState } from './store';
 import { WritableDraft } from 'immer/dist/internal';
 
 import { IMainState } from './types';
-import { ICardCatObject, IOrderObject, Nullable } from 'types/types';
+import { ICardCatObject, IFormMessage, IOrderObject, Nullable } from 'types/types';
 import { getCatDataAsync, getCatsDataAsync } from './thunks';
+import { emptyString } from 'constants/constants';
 
 const initialState: IMainState = {
   searchKey: '',
@@ -13,6 +14,7 @@ const initialState: IMainState = {
   currentCatData: null,
   currentCatId: null,
   isFirstLoad: false,
+  formMessage: { messageText: emptyString, messageType: 'success' },
   requestStatus: 'idle',
 };
 
@@ -46,6 +48,9 @@ export const mainSlice = createSlice({
     },
     setOrders(state: WritableDraft<IMainState>, { payload }: PayloadAction<Array<IOrderObject>>) {
       state.orders = payload;
+    },
+    setFormMessage(state: WritableDraft<IMainState>, { payload }: PayloadAction<IFormMessage>) {
+      state.formMessage = payload;
     },
   },
   extraReducers: (builder) => {
@@ -97,6 +102,7 @@ export const {
     setIsFirstLoad,
     setCurrentCatId,
     setOrders,
+    setFormMessage,
   },
 } = mainSlice;
 
@@ -106,6 +112,7 @@ export const getOrders = ({ main: { orders } }: RootState) => orders;
 export const getCurrentCatData = ({ main: { currentCatData } }: RootState) => currentCatData;
 export const getCurrentCatId = ({ main: { currentCatId } }: RootState) => currentCatId;
 export const getIsFirstLoad = ({ main: { isFirstLoad } }: RootState) => isFirstLoad;
+export const getFormMessage = ({ main: { formMessage } }: RootState) => formMessage;
 export const getRequestStatus = ({ main: { requestStatus } }: RootState) => requestStatus;
 
 export const { reducer } = mainSlice;

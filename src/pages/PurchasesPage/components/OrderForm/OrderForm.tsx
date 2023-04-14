@@ -1,8 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
+import { getFormMessage, setFormMessage } from 'redux/mainSlice';
 import { catsData } from 'catsData';
-import { FormMessageType, ICatObject, IOrderObject, Nullable, IFormInputs } from 'types/types';
+import { ICatObject, IOrderObject, Nullable, IFormInputs } from 'types/types';
 import { FormUserAnswersEnum, emptyString } from '../../../../constants/constants';
 import { yearStringValidator, monthStringValidator, dateStringValidator } from './utils/utils';
 import { FormMessage } from './components/FormMessage/FormMessage';
@@ -14,13 +16,13 @@ interface Props {
 }
 
 export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
+  const dispatch = useAppDispatch();
   const { register, handleSubmit, watch, reset } = useForm<IFormInputs>();
 
+  const formMessage = useAppSelector(getFormMessage);
   const catSelectorValue = watch().catSelector;
   const [selectedCatImageSrc, setSelectedCatImageSrc] = useState<Nullable<string>>(null);
   const [profileImageLoaded, setProfileImageLoaded] = useState<Nullable<File>>(null);
-  const [formMessage, setFormMessage] = useState(emptyString);
-  const [formMessageType, setFormMessageType] = useState<FormMessageType>('success');
 
   const profileImageLoadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -30,8 +32,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
   };
 
   const formMessagesClearing = () => {
-    setFormMessage('');
-    setFormMessageType('success');
+    dispatch(setFormMessage({ messageText: emptyString, messageType: 'success' }));
   };
 
   const selectedCatImageUpdate = (id: string) => {
@@ -44,8 +45,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
 
   const validateCatSelector = (value: string): boolean => {
     if (!value) {
-      setFormMessageType('error');
-      setFormMessage('Choose a cat to buy');
+      dispatch(setFormMessage({ messageText: 'Choose a cat to buy', messageType: 'error' }));
       return false;
     }
     return true;
@@ -53,14 +53,12 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
 
   const validateDate = (value: string): boolean => {
     if (!value) {
-      setFormMessageType('error');
-      setFormMessage('Enter the date of purchase');
+      dispatch(setFormMessage({ messageText: 'Enter the date of purchase', messageType: 'error' }));
       return false;
     }
 
     if (value.length !== 10) {
-      setFormMessageType('error');
-      setFormMessage('Enter the correct date');
+      dispatch(setFormMessage({ messageText: 'Enter the correct date', messageType: 'error' }));
       return false;
     }
 
@@ -70,8 +68,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
       !monthStringValidator(dateStringArray[1]) ||
       !dateStringValidator(dateStringArray[2])
     ) {
-      setFormMessageType('error');
-      setFormMessage('Enter the correct date');
+      dispatch(setFormMessage({ messageText: 'Enter the correct date', messageType: 'error' }));
       return false;
     }
     return true;
@@ -79,15 +76,23 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
 
   const validateName = (value: string): boolean => {
     if (!value) {
-      setFormMessageType('error');
-      setFormMessage(`Enter the buyer's first and last name`);
+      dispatch(
+        setFormMessage({
+          messageText: `Enter the buyer's first and last name`,
+          messageType: 'error',
+        })
+      );
       return false;
     }
 
     const pattern = /^[A-Za-zА-Яа-яЁё0-9]{2,}\s[A-Za-zА-Яа-яЁё0-9]{2,}$/;
     if (!value.match(pattern)) {
-      setFormMessageType('error');
-      setFormMessage('Two words with more than 2 characters');
+      dispatch(
+        setFormMessage({
+          messageText: 'Two words with more than 2 characters',
+          messageType: 'error',
+        })
+      );
       return false;
     }
     return true;
@@ -95,8 +100,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
 
   const validateProfileImage = (): boolean => {
     if (!profileImageLoaded) {
-      setFormMessageType('error');
-      setFormMessage('Upload a profile image');
+      dispatch(setFormMessage({ messageText: 'Upload a profile image', messageType: 'error' }));
       return false;
     }
     return true;
@@ -125,8 +129,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         orderData.buyerInfo.profileImage = URL.createObjectURL(profileImageLoaded);
       }
       orderAdd(orderData);
-      setFormMessageType('success');
-      setFormMessage('Your order is accepted!');
+      dispatch(setFormMessage({ messageText: 'Your order is accepted!', messageType: 'success' }));
       setSelectedCatImageSrc(null);
       setProfileImageLoaded(null);
       localStorage.removeItem('rss-save-form');
@@ -139,7 +142,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
   }, [watch, catSelectorValue]);
   return (
     <div className="order-form-wrapper" data-testid="app-order-form">
-      {formMessage ? <FormMessage message={formMessage} messageType={formMessageType} /> : null}
+      {formMessage.messageText ? <FormMessage /> : null}
       <form onSubmit={handleSubmit(orderSubmit)}>
         <label>
           Buyer&apos;s name and last name:
