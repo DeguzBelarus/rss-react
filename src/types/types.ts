@@ -53,11 +53,14 @@ export interface IOrderObject {
   buyerInfo: IBuyerInfoObject;
 }
 
-export interface IFormInputs {
+export interface IFormNoFileFields {
   name: string;
   date: string;
   notificationConfirmation: FormUserAnswersEnum;
   isDeliveryNeeded: boolean;
-  profileImage: FileList;
   catSelector: string;
+}
+
+export interface IFormInputs extends IFormNoFileFields {
+  profileImage: FileList;
 }

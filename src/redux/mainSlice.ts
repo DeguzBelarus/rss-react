@@ -3,9 +3,15 @@ import { RootState } from './store';
 import { WritableDraft } from 'immer/dist/internal';
 
 import { IMainState } from './types';
-import { ICardCatObject, IFormMessage, IOrderObject, Nullable } from 'types/types';
+import {
+  ICardCatObject,
+  IFormMessage,
+  IFormNoFileFields,
+  IOrderObject,
+  Nullable,
+} from 'types/types';
 import { getCatDataAsync, getCatsDataAsync } from './thunks';
-import { emptyString } from 'constants/constants';
+import { emptyString, FORM_DEFAULT_STATE } from 'constants/constants';
 
 const initialState: IMainState = {
   searchKey: '',
@@ -15,6 +21,7 @@ const initialState: IMainState = {
   currentCatId: null,
   isFirstLoad: false,
   formMessage: { messageText: emptyString, messageType: 'success' },
+  formState: FORM_DEFAULT_STATE,
   requestStatus: 'idle',
 };
 
@@ -51,6 +58,9 @@ export const mainSlice = createSlice({
     },
     setFormMessage(state: WritableDraft<IMainState>, { payload }: PayloadAction<IFormMessage>) {
       state.formMessage = payload;
+    },
+    setFormState(state: WritableDraft<IMainState>, { payload }: PayloadAction<IFormNoFileFields>) {
+      state.formState = payload;
     },
   },
   extraReducers: (builder) => {
@@ -103,6 +113,7 @@ export const {
     setCurrentCatId,
     setOrders,
     setFormMessage,
+    setFormState,
   },
 } = mainSlice;
 
@@ -113,6 +124,7 @@ export const getCurrentCatData = ({ main: { currentCatData } }: RootState) => cu
 export const getCurrentCatId = ({ main: { currentCatId } }: RootState) => currentCatId;
 export const getIsFirstLoad = ({ main: { isFirstLoad } }: RootState) => isFirstLoad;
 export const getFormMessage = ({ main: { formMessage } }: RootState) => formMessage;
+export const getFormState = ({ main: { formState } }: RootState) => formState;
 export const getRequestStatus = ({ main: { requestStatus } }: RootState) => requestStatus;
 
 export const { reducer } = mainSlice;

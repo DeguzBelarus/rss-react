@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { IOrderObject } from 'types/types';
+import { FormUserAnswersEnum } from 'constants/constants';
 import './OrderItem.scss';
 
 interface Props extends IOrderObject {
@@ -25,7 +26,7 @@ export const OrderItem: FC<Props> = ({ buyerInfo, catInfo, id, orderRemove }) =>
       ) : null}
       <span className="cat-price-span">{`${catInfo.price}$`}</span>
       {buyerInfo.isDeliveryNeeded ? <span>🚚</span> : <span>🏃</span>}
-      {buyerInfo.notificationConfirmation === 'yes' ? <span>✉️</span> : null}
+      {buyerInfo.notificationConfirmation === FormUserAnswersEnum.positive ? <span>✉️</span> : null}
       <button type="button" className="order-cancel-button" onClick={() => orderRemove(id)}>
         CANCEL
       </button>

@@ -2,12 +2,16 @@ import React, { FC, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { getFormMessage, setFormMessage } from 'redux/mainSlice';
+import { getFormMessage, setFormMessage, getFormState, setFormState } from 'redux/mainSlice';
 import { catsData } from 'catsData';
 import { ICatObject, IOrderObject, Nullable, IFormInputs } from 'types/types';
-import { FormUserAnswersEnum, emptyString } from '../../../../constants/constants';
-import { yearStringValidator, monthStringValidator, dateStringValidator } from './utils/utils';
+import {
+  FORM_DEFAULT_STATE,
+  FormUserAnswersEnum,
+  emptyString,
+} from '../../../../constants/constants';
 import { FormMessage } from './components/FormMessage/FormMessage';
+import { useValidate } from './hooks/useValidate';
 import './OrderForm.scss';
 
 interface Props {
@@ -18,16 +22,26 @@ interface Props {
 export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
   const dispatch = useAppDispatch();
   const { register, handleSubmit, watch, reset } = useForm<IFormInputs>();
+  const { validateCatSelector, validateName, validateDate, validateProfileImage } = useValidate();
+  const inputValues = watch();
 
   const formMessage = useAppSelector(getFormMessage);
-  const catSelectorValue = watch().catSelector;
+  const formState = useAppSelector(getFormState);
+
   const [selectedCatImageSrc, setSelectedCatImageSrc] = useState<Nullable<string>>(null);
   const [profileImageLoaded, setProfileImageLoaded] = useState<Nullable<File>>(null);
 
-  const profileImageLoadHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target;
-    if (files && files[0]) {
-      setProfileImageLoaded(files[0]);
+  const formStateUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setFormState({ ...formState, [event.target.name]: event.target.value }));
+  };
+
+  const formSelectorStateUpdate = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setFormState({ ...formState, [event.target.name]: event.target.value }));
+  };
+
+  const profileImageLoadHandler = (profileImage: Nullable<FileList>) => {
+    if (profileImage) {
+      setProfileImageLoaded(profileImage[0]);
     }
   };
 
@@ -43,69 +57,6 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
     }
   };
 
-  const validateCatSelector = (value: string): boolean => {
-    if (!value) {
-      dispatch(setFormMessage({ messageText: 'Choose a cat to buy', messageType: 'error' }));
-      return false;
-    }
-    return true;
-  };
-
-  const validateDate = (value: string): boolean => {
-    if (!value) {
-      dispatch(setFormMessage({ messageText: 'Enter the date of purchase', messageType: 'error' }));
-      return false;
-    }
-
-    if (value.length !== 10) {
-      dispatch(setFormMessage({ messageText: 'Enter the correct date', messageType: 'error' }));
-      return false;
-    }
-
-    const dateStringArray = value.split('-');
-    if (
-      !yearStringValidator(dateStringArray[0]) ||
-      !monthStringValidator(dateStringArray[1]) ||
-      !dateStringValidator(dateStringArray[2])
-    ) {
-      dispatch(setFormMessage({ messageText: 'Enter the correct date', messageType: 'error' }));
-      return false;
-    }
-    return true;
-  };
-
-  const validateName = (value: string): boolean => {
-    if (!value) {
-      dispatch(
-        setFormMessage({
-          messageText: `Enter the buyer's first and last name`,
-          messageType: 'error',
-        })
-      );
-      return false;
-    }
-
-    const pattern = /^[A-Za-zА-Яа-яЁё0-9]{2,}\s[A-Za-zА-Яа-яЁё0-9]{2,}$/;
-    if (!value.match(pattern)) {
-      dispatch(
-        setFormMessage({
-          messageText: 'Two words with more than 2 characters',
-          messageType: 'error',
-        })
-      );
-      return false;
-    }
-    return true;
-  };
-
-  const validateProfileImage = (): boolean => {
-    if (!profileImageLoaded) {
-      dispatch(setFormMessage({ messageText: 'Upload a profile image', messageType: 'error' }));
-      return false;
-    }
-    return true;
-  };
-
   const orderSubmit: SubmitHandler<IFormInputs> = (data) => {
     formMessagesClearing();
     const { name, date, catSelector, isDeliveryNeeded, notificationConfirmation } = data;
@@ -113,7 +64,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
       validateName(name) &&
       validateDate(date) &&
       validateCatSelector(catSelector) &&
-      validateProfileImage()
+      validateProfileImage(profileImageLoaded)
     ) {
       const orderData: IOrderObject = {
         id: orders.length + 1,
@@ -132,14 +83,15 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
       dispatch(setFormMessage({ messageText: 'Your order is accepted!', messageType: 'success' }));
       setSelectedCatImageSrc(null);
       setProfileImageLoaded(null);
-      localStorage.removeItem('rss-save-form');
       reset();
+      dispatch(setFormState(FORM_DEFAULT_STATE));
     }
   };
 
   useEffect(() => {
-    selectedCatImageUpdate(watch().catSelector);
-  }, [watch, catSelectorValue]);
+    selectedCatImageUpdate(inputValues.catSelector);
+    profileImageLoadHandler(inputValues.profileImage);
+  }, [inputValues]);
   return (
     <div className="order-form-wrapper" data-testid="app-order-form">
       {formMessage.messageText ? <FormMessage /> : null}
@@ -147,28 +99,38 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label>
           Buyer&apos;s name and last name:
           <input
-            {...register('name')}
+            {...register('name', {
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) => formStateUpdate(event),
+            })}
             type="text"
             placeholder="Enter name and last name..."
             autoComplete="false"
+            defaultValue={formState.name}
             data-testid="app-name-input"
           />
         </label>
         <label htmlFor="date-input">
           Order date:
           <input
-            {...register('date')}
+            {...register('date', {
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) => formStateUpdate(event),
+            })}
             id="date-input"
             type="date"
             title="Specify the date of purchase"
+            defaultValue={formState.date}
             data-testid="app-date-input"
           />
         </label>
         <label>
           Selected cat:
           <select
-            {...register('catSelector')}
+            {...register('catSelector', {
+              onChange: (event: React.ChangeEvent<HTMLSelectElement>) =>
+                formSelectorStateUpdate(event),
+            })}
             title="Select a cat to buy"
+            defaultValue={formState.catSelector}
             data-testid="app-cat-selector"
           >
             <option value="">-- Choose a cat to buy --</option>
@@ -188,9 +150,12 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
           <label>
             Yes
             <input
-              {...register('notificationConfirmation')}
+              {...register('notificationConfirmation', {
+                onChange: (event: React.ChangeEvent<HTMLInputElement>) => formStateUpdate(event),
+              })}
               type="radio"
               title="agree to receive news"
+              defaultChecked={formState.notificationConfirmation === FormUserAnswersEnum.positive}
               value={FormUserAnswersEnum.positive}
               data-testid="app-notification-agree-radio"
             />
@@ -198,10 +163,12 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
           <label>
             No
             <input
-              {...register('notificationConfirmation')}
+              {...register('notificationConfirmation', {
+                onChange: (event: React.ChangeEvent<HTMLInputElement>) => formStateUpdate(event),
+              })}
               type="radio"
               title="disagree to receive news"
-              defaultChecked={true}
+              defaultChecked={formState.notificationConfirmation === FormUserAnswersEnum.negative}
               value={FormUserAnswersEnum.negative}
               data-testid="app-notification-disagree-radio"
             />
@@ -210,7 +177,16 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
         <label className="delivery-label">
           Need delivery:
           <input
-            {...register('isDeliveryNeeded')}
+            {...register('isDeliveryNeeded', {
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch(
+                  setFormState({
+                    ...formState,
+                    [event.target.name]: event.target.checked ? true : false,
+                  })
+                ),
+            })}
+            defaultChecked={formState.isDeliveryNeeded}
             type="checkbox"
             title="I need delivery"
             data-testid="app-delivery-checkbox"
@@ -228,7 +204,6 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             id="profile-image-file-input"
             type="file"
             accept="image/png, image/jpeg"
-            onChange={profileImageLoadHandler}
             multiple={false}
             data-testid="app-profile-file-input"
           />

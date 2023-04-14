@@ -1,4 +1,10 @@
-import { ICardCatObject, IFormMessage, IOrderObject, Nullable } from './../types/types';
+import {
+  ICardCatObject,
+  IFormNoFileFields,
+  IFormMessage,
+  IOrderObject,
+  Nullable,
+} from './../types/types';
 
 export type RequestStatusType = 'idle' | 'loading' | 'failed';
 
@@ -9,6 +15,7 @@ export interface IMainState {
   currentCatData: Nullable<ICardCatObject>;
   currentCatId: Nullable<number>;
   isFirstLoad: boolean;
-  requestStatus: RequestStatusType;
   formMessage: IFormMessage;
+  formState: IFormNoFileFields;
+  requestStatus: RequestStatusType;
 }
