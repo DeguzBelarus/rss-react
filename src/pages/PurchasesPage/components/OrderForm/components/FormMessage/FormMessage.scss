@@ -1,0 +1,23 @@
+@import '../../../../../../variables';
+
+.form-message-wrapper {
+  @include flex-all-center;
+  @include user-select-none;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  border: 2px solid #577;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 5px 12px;
+
+  .message-span {
+    &:not(.error-message) {
+      color: green;
+    }
+
+    &.error-message {
+      color: red;
+    }
+  }
+}
