@@ -42,6 +42,7 @@ export const CatModal: FC = () => {
       className="cat-modal-wrapper"
       onClick={(event) => closeCatModalByGreyArea(event)}
       ref={catModalWrapper}
+      data-testid="app-cat-modal"
     >
       <div
         className={requestStatus === 'loading' ? 'cat-data-container empty' : 'cat-data-container'}
@@ -84,7 +85,12 @@ export const CatModal: FC = () => {
             </div>
             <h3>Описание:</h3>
             <p>{currentCatData.description}</p>
-            <button type="button" className="close-button" onClick={closeCatModal}>
+            <button
+              type="button"
+              className="close-button"
+              onClick={closeCatModal}
+              data-testid="app-cat-modal-close-button"
+            >
               &times;
             </button>
           </>
