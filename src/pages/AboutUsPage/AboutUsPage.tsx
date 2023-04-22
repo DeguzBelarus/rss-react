@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Header } from 'components/Header/Header';
+import { Header } from '../../components/Header/Header';
 import './AboutUsPage.scss';
 
 export const AboutUsPage: FC = () => {

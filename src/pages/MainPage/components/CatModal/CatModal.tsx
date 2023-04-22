@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 
 import {
   getRequestStatus,
@@ -7,11 +7,11 @@ import {
   getCurrentCatData,
   getCurrentCatId,
   setCurrentCatId,
-} from 'redux/mainSlice';
-import { getCatDataAsync } from 'redux/thunks';
-import { Nullable } from 'types/types';
-import { Loader } from 'components/Loader/Loader';
-import { SERVER_STATIC_URL } from 'constants/constants';
+} from '../../../../redux/mainSlice';
+import { getCatDataAsync } from '../../../../redux/thunks';
+import { Nullable } from '../../../../types/types';
+import { Loader } from '../../../../components/Loader/Loader';
+import { SERVER_STATIC_URL } from '../../../../constants/constants';
 import './CatModal.scss';
 
 export const CatModal: FC = () => {

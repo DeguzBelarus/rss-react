@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { IOrderObject } from 'types/types';
-import { FormUserAnswersEnum } from 'constants/constants';
+import { IOrderObject } from '../../../../types/types';
+import { FormUserAnswersEnum } from '../../../../constants/constants';
 import './OrderItem.scss';
 
 interface Props extends IOrderObject {

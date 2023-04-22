@@ -1,4 +1,4 @@
-import { ICardCatObject } from 'types/types';
+import { ICardCatObject } from '../types/types';
 
 export const cardsDataMock: Array<ICardCatObject> = [
   {

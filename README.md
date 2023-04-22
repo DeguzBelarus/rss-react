@@ -10,7 +10,7 @@ the rs school react course repo
 
 ## test coverage ( % Stmts)
 
-84.4%
+88%
 
 ## task 2 - React Forms
 

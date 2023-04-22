@@ -1,10 +1,15 @@
 import React, { FC, useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { getFormMessage, setFormMessage, getFormState, setFormState } from 'redux/mainSlice';
-import { catsData } from 'catsData';
-import { ICatObject, IOrderObject, Nullable, IFormInputs } from 'types/types';
+import {
+  getFormMessage,
+  setFormMessage,
+  getFormState,
+  setFormState,
+} from '../../../../redux/mainSlice';
+import { catsData } from '../../../../catsData';
+import { ICatObject, IOrderObject, Nullable, IFormInputs } from '../../../../types/types';
 import {
   FORM_DEFAULT_STATE,
   FormUserAnswersEnum,

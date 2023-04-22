@@ -1,4 +1,4 @@
-import { ICatObject } from 'types/types';
+import { ICatObject } from './types/types';
 
 export const catsData: Array<ICatObject> = [
   {

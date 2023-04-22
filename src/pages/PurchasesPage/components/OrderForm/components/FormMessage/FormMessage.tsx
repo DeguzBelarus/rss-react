@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { useAppSelector } from 'redux/hooks';
+import { useAppSelector } from '../../../../../../redux/hooks';
 
-import { getFormMessage } from 'redux/mainSlice';
+import { getFormMessage } from '../../../../../../redux/mainSlice';
 import './FormMessage.scss';
 
 export const FormMessage: FC = () => {

@@ -9,9 +9,9 @@ import {
   IFormNoFileFields,
   IOrderObject,
   Nullable,
-} from 'types/types';
+} from '../types/types';
 import { getCatDataAsync, getCatsDataAsync } from './thunks';
-import { emptyString, FORM_DEFAULT_STATE } from 'constants/constants';
+import { emptyString, FORM_DEFAULT_STATE } from '../constants/constants';
 
 const initialState: IMainState = {
   searchKey: '',

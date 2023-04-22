@@ -1,7 +1,7 @@
-import { useAppDispatch } from 'redux/hooks';
-import { setFormMessage } from 'redux/mainSlice';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { setFormMessage } from '../../../../../redux/mainSlice';
 import { dateStringValidator, monthStringValidator, yearStringValidator } from '../utils/utils';
-import { Nullable } from 'types/types';
+import { Nullable } from '../../../../../types/types';
 
 export const useValidate = () => {
   const dispatch = useAppDispatch();

@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 
-import { Header } from 'components/Header/Header';
+import { Header } from '../../components/Header/Header';
 import { CatItem } from './components/CatItem/CatItem';
-import { Loader } from 'components/Loader/Loader';
+import { Loader } from '../../components/Loader/Loader';
 import { CatModal } from './components/CatModal/CatModal';
 import {
   getRequestStatus,
@@ -12,8 +12,8 @@ import {
   getCurrentCatId,
   getIsFirstLoad,
   setIsFirstLoad,
-} from 'redux/mainSlice';
-import { getCatsDataAsync } from 'redux/thunks';
+} from '../../redux/mainSlice';
+import { getCatsDataAsync } from '../../redux/thunks';
 import './MainPage.scss';
 
 export const MainPage: FC = () => {

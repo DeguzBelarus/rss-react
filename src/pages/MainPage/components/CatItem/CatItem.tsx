@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch } from '../../../../redux/hooks';
 
-import { setCurrentCatId } from 'redux/mainSlice';
-import { ICardCatObject } from 'types/types';
-import { SERVER_STATIC_URL } from 'constants/constants';
+import { setCurrentCatId } from '../../../../redux/mainSlice';
+import { ICardCatObject } from '../../../../types/types';
+import { SERVER_STATIC_URL } from '../../../../constants/constants';
 import './CatItem.scss';
 
 export const CatItem: FC<ICardCatObject> = ({ breed, name, image: imageSrc, price, sex, id }) => {

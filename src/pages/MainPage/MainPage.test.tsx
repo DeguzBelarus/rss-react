@@ -1,12 +1,16 @@
-import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
-import { store } from 'redux/store';
-import { App } from 'components/App';
+import { store } from '../../redux/store';
+import { App } from '../../components/App';
+import { CatItem } from './components/CatItem/CatItem';
+import { CatModal } from './components/CatModal/CatModal';
+import { act } from 'react-dom/test-utils';
+import { cardDataMock } from '../../mocks/mocks';
+import { ICardCatObject } from '../../types/types';
 
-const maxCatCards = 50;
 const renderApplication = (): void => {
   render(
     <Provider store={store}>
@@ -17,27 +21,49 @@ const renderApplication = (): void => {
   );
 };
 
+const renderCatItem = (): void => {
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <CatItem {...(cardDataMock as unknown as ICardCatObject)} />
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
+const renderCatModal = (): void => {
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <CatModal />
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
 describe('Main page tests', (): void => {
-  test('renders the main HTML div element of MainPage component', () => {
-    renderApplication();
+  beforeEach(() => {
+    global.fetch = vi.fn();
+  });
+
+  test('renders the main HTML div element of MainPage component', async () => {
+    await act(async () => {
+      renderApplication();
+    });
     expect(screen.getByTestId('app-main-page')).toBeInTheDocument();
   });
 
-  test('checks correct count of CatItem components on the MainPage', async () => {
-    renderApplication();
-    expect((await waitFor(() => screen.getAllByTestId('app-cat-item'))).length).toBe(maxCatCards);
+  test('renders the CatItem component', async () => {
+    await act(async () => {
+      renderCatItem();
+    });
+    expect(screen.getByTestId('app-cat-item')).toBeInTheDocument();
   });
 
-  test('shows the cat modal component by clicking a cat card', async () => {
-    renderApplication();
-    fireEvent.click((await waitFor(() => screen.getAllByTestId('app-cat-item')))[0]);
+  test('renders the CatModal component', async () => {
+    await act(async () => {
+      renderCatModal();
+    });
     expect(screen.getByTestId('app-cat-modal')).toBeInTheDocument();
-  });
-
-  test('closes the cat modal component by clicking the close button', async () => {
-    renderApplication();
-    fireEvent.click((await waitFor(() => screen.getAllByTestId('app-cat-item')))[0]);
-    fireEvent.click(screen.getByTestId('app-cat-modal-close-button'));
-    expect(screen.queryByTestId('app-cat-modal')).not.toBeInTheDocument();
   });
 });

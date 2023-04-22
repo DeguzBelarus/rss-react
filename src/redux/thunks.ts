@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CAT_DATA_BASE_URL } from 'constants/constants';
-import { ICardCatObject, Nullable, Undefinable } from 'types/types';
-import { fetchData } from 'utils/utils';
+import { CAT_DATA_BASE_URL } from '../constants/constants';
+import { ICardCatObject, Nullable, Undefinable } from '../types/types';
+import { fetchData } from '../utils/utils';
 
 // main thunks
 // get cats data

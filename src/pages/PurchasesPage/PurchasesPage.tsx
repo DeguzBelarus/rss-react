@@ -1,11 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-import { Header } from 'components/Header/Header';
+import { Header } from '../../components/Header/Header';
 import { OrderItem } from './components/OrderItem/OrderItem';
-import { IOrderObject } from 'types/types';
+import { IOrderObject } from '../../types/types';
 import { OrderForm } from './components/OrderForm/OrderForm';
-import { getOrders, setOrders } from 'redux/mainSlice';
+import { getOrders, setOrders } from '../../redux/mainSlice';
 import './PurchasesPage.scss';
 
 export const PurchasesPage: FC = () => {

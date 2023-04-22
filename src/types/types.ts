@@ -1,4 +1,4 @@
-import { FormUserAnswersEnum } from 'constants/constants';
+import { FormUserAnswersEnum } from '../constants/constants';
 
 // types
 export type LoaderOriginType = 'main-page' | 'cat-modal';
