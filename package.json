@@ -29,7 +29,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
