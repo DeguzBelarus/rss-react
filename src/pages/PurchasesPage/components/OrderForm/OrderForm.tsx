@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 

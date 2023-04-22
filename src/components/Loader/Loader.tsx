@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-import { LoaderOriginType } from 'types/types';
+import { LoaderOriginType } from '../../types/types';
 import './Loader.scss';
 
 interface Props {

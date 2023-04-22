@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { IOrderObject } from '../../../../types/types';
 import { FormUserAnswersEnum } from '../../../../constants/constants';

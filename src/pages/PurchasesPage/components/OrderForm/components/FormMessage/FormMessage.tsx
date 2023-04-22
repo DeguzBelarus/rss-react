@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useAppSelector } from '../../../../../../redux/hooks';
 
 import { getFormMessage } from '../../../../../../redux/mainSlice';

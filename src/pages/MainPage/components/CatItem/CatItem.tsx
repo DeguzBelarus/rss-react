@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useAppDispatch } from '../../../../redux/hooks';
 
 import { setCurrentCatId } from '../../../../redux/mainSlice';

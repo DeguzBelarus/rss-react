@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 
 import { Header } from '../../components/Header/Header';
