@@ -25,7 +25,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "dev": "npm run build:client && npm run build:server && npx ts-node --esm server.ts",
+    "dev": "npx ts-node --esm server.ts",
     "build:client": "rimraf ./dist/client && vite build --outDir dist/client --ssrManifest",
     "build:server": "rimraf ./dist/server && vite build --outDir dist/server --ssr src/entryServer.tsx",
     "test": "vitest",
