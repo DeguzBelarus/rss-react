@@ -13,7 +13,8 @@ export default defineConfig({
       enabled: true,
       provider: 'c8',
       all: true,
-      exclude: ['src/types/*', 'src/redux/types.ts', 'vite.config.ts'],
+      include: ['src/**/*'],
+      exclude: ['src/types/*', 'src/redux/types.ts'],
     },
   },
 });
