@@ -50,12 +50,14 @@ export const Header: FC<Props> = ({ origin, currentCatId }) => {
             onBlur={searchModeDeactivator}
             onKeyDown={(event) => searchOnEnterHandler(event)}
             data-testid="app-filter-input"
+            data-cy="app-filter-input"
           />
           <button
             type="button"
             className="search-button"
             onClick={() => dispatch(getCatsDataAsync(searchKey))}
             data-testid="app-search-button"
+            data-cy="app-search-button"
           >
             &#128269;
           </button>
