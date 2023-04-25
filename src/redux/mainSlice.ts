@@ -13,7 +13,7 @@ import {
 import { getCatDataAsync, getCatsDataAsync } from './thunks';
 import { emptyString, FORM_DEFAULT_STATE } from '../constants/constants';
 
-const initialState: IMainState = {
+export const initialState: IMainState = {
   searchKey: '',
   catsData: [],
   orders: [],

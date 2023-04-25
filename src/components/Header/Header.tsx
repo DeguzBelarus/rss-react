@@ -77,7 +77,9 @@ export const Header: FC<Props> = ({ origin, currentCatId }) => {
         ) : null}
         {origin === 'about-page' ? (
           <>
-            <Link to={'/'}>Main</Link>
+            <Link to={'/'} data-testid="main-page-link">
+              Main
+            </Link>
             <Link to={'/purchases'} data-testid="purchases-link">
               Purchases
             </Link>
@@ -86,7 +88,9 @@ export const Header: FC<Props> = ({ origin, currentCatId }) => {
         ) : null}
         {origin === 'purchases-page' ? (
           <>
-            <Link to={'/'}>Main</Link>
+            <Link to={'/'} data-testid="main-page-link">
+              Main
+            </Link>
             <span className="current-page-span">Purchases</span>
             <Link to={'/about'} data-testid="app-about-us-link">
               About Us

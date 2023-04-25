@@ -7,6 +7,7 @@ import { store } from '../../redux/store';
 import { App } from '../../components/App';
 const catSelectorOptionsCount = 17;
 const singleOrder = 1;
+const emptyOrders = 0;
 
 const renderPurchasesPage = (): void => {
   const purchasesRoute = '/purchases';
@@ -57,5 +58,11 @@ describe('Purchases page tests', (): void => {
     });
     fireEvent.click(screen.getByTestId('app-order-accept-button'));
     expect((await waitFor(() => screen.getAllByTestId('app-order-item'))).length).toBe(singleOrder);
+    expect(store.getState().main.orders.length).toBe(singleOrder);
+    fireEvent.click(screen.getAllByTestId('app-order-remove-button')[0]);
+    expect((await waitFor(() => screen.queryAllByTestId('app-order-item'))).length).toBe(
+      emptyOrders
+    );
+    expect(store.getState().main.orders.length).toBe(emptyOrders);
   });
 });

@@ -27,7 +27,12 @@ export const OrderItem: FC<Props> = ({ buyerInfo, catInfo, id, orderRemove }) =>
       <span className="cat-price-span">{`${catInfo.price}$`}</span>
       {buyerInfo.isDeliveryNeeded ? <span>🚚</span> : <span>🏃</span>}
       {buyerInfo.notificationConfirmation === FormUserAnswersEnum.positive ? <span>✉️</span> : null}
-      <button type="button" className="order-cancel-button" onClick={() => orderRemove(id)}>
+      <button
+        type="button"
+        className="order-cancel-button"
+        onClick={() => orderRemove(id)}
+        data-testid="app-order-remove-button"
+      >
         CANCEL
       </button>
     </div>
