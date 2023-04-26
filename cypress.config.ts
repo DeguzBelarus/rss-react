@@ -7,6 +7,7 @@ export default defineConfig({
       exclude: 'cypress/**/*.*',
     },
   },
+
   e2e: {
     baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
@@ -14,8 +15,16 @@ export default defineConfig({
       return config;
     },
   },
+
   video: false,
   experimentalFetchPolyfill: true,
   screenshotOnRunFailure: false,
   defaultCommandTimeout: 10000,
+
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'vite',
+    },
+  },
 });

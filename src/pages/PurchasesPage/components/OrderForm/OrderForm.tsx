@@ -112,6 +112,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             autoComplete="false"
             defaultValue={formState.name}
             data-testid="app-name-input"
+            data-cy="app-name-input"
           />
         </label>
         <label htmlFor="date-input">
@@ -125,6 +126,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             title="Specify the date of purchase"
             defaultValue={formState.date}
             data-testid="app-date-input"
+            data-cy="app-date-input"
           />
         </label>
         <label>
@@ -137,6 +139,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             title="Select a cat to buy"
             defaultValue={formState.catSelector}
             data-testid="app-cat-selector"
+            data-cy="app-cat-selector"
           >
             <option value="">-- Choose a cat to buy --</option>
             {catsData
@@ -163,6 +166,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
               defaultChecked={formState.notificationConfirmation === FormUserAnswersEnum.positive}
               value={FormUserAnswersEnum.positive}
               data-testid="app-notification-agree-radio"
+              data-cy="app-notification-agree-radio"
             />
           </label>
           <label>
@@ -176,6 +180,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
               defaultChecked={formState.notificationConfirmation === FormUserAnswersEnum.negative}
               value={FormUserAnswersEnum.negative}
               data-testid="app-notification-disagree-radio"
+              data-cy="app-notification-disagree-radio"
             />
           </label>
         </div>
@@ -195,6 +200,7 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             type="checkbox"
             title="I need delivery"
             data-testid="app-delivery-checkbox"
+            data-cy="app-delivery-checkbox"
           />
         </label>
         <label
@@ -211,9 +217,15 @@ export const OrderForm: FC<Props> = ({ orderAdd, orders }) => {
             accept="image/png, image/jpeg"
             multiple={false}
             data-testid="app-profile-file-input"
+            data-cy="app-profile-file-input"
           />
         </label>
-        <button className="order-submit-button" type="submit" data-testid="app-order-accept-button">
+        <button
+          className="order-submit-button"
+          type="submit"
+          data-testid="app-order-accept-button"
+          data-cy="app-order-accept-button"
+        >
           Accept Order
         </button>
       </form>
