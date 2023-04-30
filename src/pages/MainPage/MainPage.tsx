@@ -50,9 +50,7 @@ export const MainPage: FC = () => {
               return <CatItem {...catData} key={catData.id} />;
             })}
           </div>
-        ) : (
-          <h3 className="no-cats-span">{'Кошек не найдено ;('}</h3>
-        )}
+        ) : null}
         {currentCatId ? <CatModal /> : null}
       </div>
     </>
