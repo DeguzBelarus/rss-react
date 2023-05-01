@@ -1,0 +1,86 @@
+@import '../../../../variables';
+
+.order-form-wrapper {
+  width: 600px;
+  height: auto;
+  @include flex-line-spacebetween-vertical-center;
+  position: relative;
+  border: 1px solid #222;
+  border-radius: 2px;
+  box-shadow: 0 0 5px grey;
+  background-color: #fff;
+  padding: 5px;
+
+  form {
+    width: 40%;
+    height: auto;
+    @include flex-column-line-center-vertical-top;
+    gap: 5px;
+
+    label {
+      position: relative;
+      @include flex-column-line-center-vertical-top;
+
+      input[type=text],
+      input[type=date],
+      select {
+        width: 200px;
+        height: 25px;
+        padding-left: 2px;
+      }
+
+      select {
+        text-align: center;
+      }
+    }
+
+    .delivery-label {
+      @include flex-all-center;
+      flex-direction: row;
+      gap: 5px;
+
+      input {
+        cursor: pointer;
+      }
+    }
+
+    .profile-image-label {
+      @include flex-all-center;
+      flex-direction: row;
+      padding: 3px 10px;
+      border: 1px solid #000;
+      cursor: pointer;
+
+      &.file-input-with-file {
+        background-color: yellowgreen;
+      }
+
+      input {
+        visibility: hidden;
+        position: absolute
+      }
+    }
+
+    .news-confirmation-container {
+      @include flex-all-center;
+      gap: 5px;
+    }
+
+    .order-submit-button {
+      width: 200px;
+      height: 90%;
+      @include flex-all-center;
+      padding: 5px 12px;
+      margin-top: 20px;
+      font-weight: bold;
+      background-color: #fff;
+    }
+  }
+
+  .cat-preview-image {
+    width: 300px;
+    margin-bottom: auto;
+    aspect-ratio: 16/9;
+    box-shadow: 0 0 5px grey;
+  }
+}

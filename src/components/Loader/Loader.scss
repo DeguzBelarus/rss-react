@@ -1,0 +1,40 @@
+@import '../../variables';
+
+.loader-wrapper {
+  width: 100px;
+  height: 50px;
+  @include flex-all-center;
+  @include user-select-none;
+  border-radius: 50%;
+  animation: rotation 1s linear 0s infinite;
+
+  &:not(.mini) {
+    border: 3px solid green;
+
+    .loading-span {
+      font-weight: bold;
+      color: green;
+    }
+  }
+
+  &.mini {
+    width: 75px;
+    height: 30px;
+    border: 2px solid deeppink;
+
+    .loading-span {
+      font-size: 11px;
+      color: deeppink;
+    }
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,40 @@
+@import '../../../../variables';
+
+.cat-item-wrapper {
+  width: 22vw;
+  height: auto;
+  @include flex-column-line-center-vertical-top;
+  border: 3px solid #555;
+  background-color: #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+
+  .cat-name-paragraph {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .cat-image-container {
+    width: 100%;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+  }
+
+  .cat-info-container {
+    width: 100%;
+    @include flex-line-spacebetween-vertical-center;
+    padding: 5px;
+
+    .price-span {
+      font-weight: bold;
+      color: green;
+    }
+  }
+}
