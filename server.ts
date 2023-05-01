@@ -22,13 +22,19 @@ app.use('*', async (request: Request, response: Response, next: NextFunction) =>
     );
 
     const { render } = await vite.ssrLoadModule('./src/entryServer.tsx');
-    const { pipe } = await render(url, {
+    const [{ pipe }, store] = await render(url, {
       onShellReady() {
         response.write(template.split(`<!--ssr-outlet-->`)[0]);
         pipe(response);
       },
       onAllReady() {
-        response.write(template.split(`<!--ssr-outlet-->`)[1]);
+        response.write(
+          template.split(`<!--ssr-outlet-->`)[1] +
+            `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState()).replace(
+              /</g,
+              '\\u003c'
+            )}</script>`
+        );
         response.end();
       },
     });

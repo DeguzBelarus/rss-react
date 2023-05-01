@@ -3,9 +3,13 @@ import { Provider } from 'react-redux';
 import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom/server';
 
 import { App } from './components/App';
-import { store } from './redux/store';
+import { getCatsDataAsync } from './redux/thunks';
+import { setupStore } from './redux/store';
 
-export const render = (url: string, options: RenderToPipeableStreamOptions) => {
+const store = setupStore();
+await store.dispatch(getCatsDataAsync(''));
+
+export const render = async (url: string, options: RenderToPipeableStreamOptions) => {
   const app = (
     <Provider store={store}>
       <StaticRouter location={url}>
@@ -13,5 +17,5 @@ export const render = (url: string, options: RenderToPipeableStreamOptions) => {
       </StaticRouter>
     </Provider>
   );
-  return renderToPipeableStream(app, options);
+  return [renderToPipeableStream(app, options), store];
 };

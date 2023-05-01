@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, PreloadedState } from '@reduxjs/toolkit';
 import { reducer as mainReducer } from './mainSlice';
 
 export const store = configureStore({
@@ -6,6 +6,15 @@ export const store = configureStore({
     main: mainReducer,
   },
 });
+
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+  return configureStore({
+    reducer: {
+      main: mainReducer,
+    },
+    preloadedState,
+  });
+};
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
