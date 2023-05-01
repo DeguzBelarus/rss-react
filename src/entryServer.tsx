@@ -6,7 +6,7 @@ import { App } from './components/App';
 import { store } from './redux/store';
 import { getCatsDataAsync } from './redux/thunks';
 
-await store.dispatch(getCatsDataAsync(''));
+// await store.dispatch(getCatsDataAsync(''));
 
 export const render = (url: string, options: RenderToPipeableStreamOptions) => {
   const app = (
