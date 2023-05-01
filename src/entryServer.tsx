@@ -4,7 +4,6 @@ import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom
 
 import { App } from './components/App';
 import { store } from './redux/store';
-import { getCatsDataAsync } from './redux/thunks';
 
 export const render = (url: string, options: RenderToPipeableStreamOptions) => {
   const app = (
